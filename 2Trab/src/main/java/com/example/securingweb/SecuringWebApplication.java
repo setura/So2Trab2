@@ -35,11 +35,12 @@ public class SecuringWebApplication implements CommandLineRunner {
 
 
 		System.out.println("StartApplication...");
-		/*
+
 		// no segundo run, podemos comentar estas 3 linhas
-		userRepository.save(new Utilizador("admin","1234" , 1));
-		regRepository.save(new Registo(1, 2, 45.2,23.4, "PizzaHut"));
-		*/
+		/*userRepository.save(new Utilizador("admin","1234" , 1));
+		userRepository.save(new Utilizador("user","password" , 1));
+		regRepository.save(new Registo(1, 2, 45.2,23.4, "PizzaHut"));*/
+
 
 
 

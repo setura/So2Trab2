@@ -13,8 +13,8 @@ public class Registo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    int regId;
-    int userId;
+    long regId;
+    long userId;
     int regType;// 0,vazio ;1,poucas pessoas; 2,cheio; 3, cheio com fila
     double longitude;
     double latitude;
@@ -24,7 +24,7 @@ public class Registo {
 
     public Registo(){}
 
-    public Registo(int userId,int type,double longitude,double latitude,String name){
+    public Registo(long userId,int type,double longitude,double latitude,String name){
         this.userId = userId;
         this.regType = type;
         this.longitude= longitude;
@@ -34,7 +34,7 @@ public class Registo {
 
     }
 
-    public int getRegId() {
+    public long getRegId() {
         return regId;
     }
 

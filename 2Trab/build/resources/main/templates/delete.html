@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>DeleteReg</title>
+</head>
+<body>
+<h1 th:inline="text">Delete a reg</h1>
+<h3 th:inline="text">User: [[${#httpServletRequest.remoteUser}]]!</h3>
+
+
+<form th:action="@{/userPanel/delete}" method="post">
+    <div><label> Regist ID: <input id="localName" type="text" name="idDelete"/> </label></div>
+    <div><input type="submit" value="Delete regist"/></div>
+
+</form>
+</body>
+</html>

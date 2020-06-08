@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface UtilizadorRepository extends CrudRepository<Utilizador, Long> {
 
-    Registo findByuserName(String name);
+    Utilizador findByuserName(String name);
 }
