@@ -8,7 +8,7 @@ import java.util.List;
 
     Registo findBylocalName(String name);
 
-    Iterable<Registo> findByuserId(long id);
+    Iterable<Registo> findByuserId(String id);
 
         // findAllByByuserId(long id);
 

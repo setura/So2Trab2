@@ -65,7 +65,6 @@ public class RegistControler extends HttpServlet {
                 +("<body>\n")+
                 ("<table>\n" +
                 "  <tr>\n" +
-                "    <th>RegistId</th>\n" +
                 "    <th>Place</th>\n" +
                 "    <th>Situation</th>\n" +
                 "    <th>Longitude</th>\n" +
@@ -89,11 +88,10 @@ public class RegistControler extends HttpServlet {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
         System.out.println("USER:"+ currentPrincipalName);//erro aqui devolve NULL
-        long currentPrincipalID = utilizadorRepository.findByuserName(currentPrincipalName).getUserId();
         int typeValue=Integer.parseInt(value);
         Double longitude=Double.parseDouble(lon);
         Double latitude=Double.parseDouble(lat);
-        registoRepository.save(new Registo(currentPrincipalID,typeValue, longitude,latitude, name));
+        registoRepository.save(new Registo(currentPrincipalName,typeValue, longitude,latitude, name));
 
         return "<a href=\"javascript:history.go(-2)\">Go Back</a>";
 
@@ -107,7 +105,9 @@ public class RegistControler extends HttpServlet {
 
     private String makeUserTable() {
 
-        Iterable<Registo> all = registoRepository.findByuserId(2);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        Iterable<Registo> all = registoRepository.findByuserId(currentPrincipalName);
         String lines="";
         for (Registo registo : all) {
             lines +=("<tr>\n" +
@@ -142,6 +142,7 @@ public class RegistControler extends HttpServlet {
                 +("<body>\n")+
                 ("<table>\n" +
                         "  <tr>\n" +
+                        "    <th>RegistId</th>\n" +
                         "    <th>Place</th>\n" +
                         "    <th>Situation</th>\n" +
                         "    <th>Longitude</th>\n" +
@@ -156,9 +157,20 @@ public class RegistControler extends HttpServlet {
 
     @RequestMapping(value="/userPanel/delete",method = RequestMethod.POST)
     public String deleteUser(@RequestParam(name = "idDelete") String id) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
         long idParsed=Long.parseLong(id);
-        registoRepository.deleteById(idParsed);
-        return "<a href=\"javascript:history.back()\">Go Back</a>";
+        Iterable<Registo> userRegist = registoRepository.findByuserId(currentPrincipalName);
+        for (Registo regist:userRegist) {
+            if (regist.getRegId() == idParsed)
+            {
+                registoRepository.deleteById(idParsed);
+                return "<a href=\"javascript:history.back()\">Go Back</a>";
+            }
+        }
+        return "<script>window.alert('You can only erase your regists!') </script>";
+
+
     }
 
 

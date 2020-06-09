@@ -14,7 +14,7 @@ public class Registo {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     long regId;
-    long userId;
+    String userId;
     int regType;// 0,vazio ;1,poucas pessoas; 2,cheio; 3, cheio com fila
     double longitude;
     double latitude;
@@ -24,7 +24,7 @@ public class Registo {
 
     public Registo(){}
 
-    public Registo(long userId,int type,double longitude,double latitude,String name){
+    public Registo(String userId,int type,double longitude,double latitude,String name){
         this.userId = userId;
         this.regType = type;
         this.longitude= longitude;
@@ -56,6 +56,10 @@ public class Registo {
 
     public Date getDate() {
         return date;
+    }
+
+    public String getUserId() {
+        return userId;
     }
 
     public String decodeStituation(int regType)

@@ -12,11 +12,10 @@ import javax.persistence.Id;
 public class Utilizador {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long userId;
     private String userName;
     private String password;
     private String role;
+    private Boolean enabled;
 
 
     public Utilizador(){}
@@ -24,11 +23,8 @@ public class Utilizador {
         this.userName = userName;
         this.password = password;
         this.role = role;
+        this.enabled=true;
 
-    }
-
-    public Long getUserId() {
-        return userId;
     }
 
     public String getUserName() {
