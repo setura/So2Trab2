@@ -16,11 +16,11 @@ public class Utilizador {
     private Long userId;
     private String userName;
     private String password;
-    private int role;
+    private String role;
 
 
     public Utilizador(){}
-    public Utilizador(String userName, String password,int role) {
+    public Utilizador(String userName, String password,String role) {
         this.userName = userName;
         this.password = password;
         this.role = role;
@@ -39,7 +39,7 @@ public class Utilizador {
         return password;
     }
 
-    public int getRole() {
+    public String getRole() {
         return role;
     }
 

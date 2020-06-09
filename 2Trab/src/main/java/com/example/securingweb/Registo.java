@@ -58,5 +58,26 @@ public class Registo {
         return date;
     }
 
+    public String decodeStituation(int regType)
+    {
+        switch (regType){
+            case 0:
+                return "Vazio ou com mínima lotação";
+
+            case 1:
+                return "com pessoas, mas espaço suficiente";
+
+            case 2:
+                return "Muito cheio";
+
+            case 3:
+                return "Muito cheio e com fila de espera";
+
+            default:
+                return "Situação não conhecida";
+
+        }
+    }
+
 
 }

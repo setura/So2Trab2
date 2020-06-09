@@ -5,8 +5,15 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+
 @RestController
-public class RegistControler {
+public class RegistControler extends HttpServlet {
 
     private RegistoRepository registoRepository;
     private UtilizadorRepository utilizadorRepository;
@@ -16,9 +23,60 @@ public class RegistControler {
         this.registoRepository=registoRepository;
         this.utilizadorRepository=utilizadorRepository;
     }
+
     @GetMapping("/locals")
-    public Iterable<Registo> getLocals() {
-       return registoRepository.findAll();
+    public String getLocals() throws IOException {
+       return makeTable();
+    }
+
+    public String makeTable() throws IOException {
+        //response.setContentType("text/html");
+        Iterable<Registo> all = registoRepository.findAll();
+        String lines="";
+        for (Registo registo : all) {
+            lines +=("<tr>\n" +
+                    "    <td>" + registo.getLocalName() + "</td>\n" +
+                    "    <td>" + registo.decodeStituation(registo.regType) + "</td>\n" +
+                    "    <td>" + registo.getLongitude() + "</td>\n" +
+                    "    <td>" + registo.getLatitude() + "</td>\n" +
+                    "  </tr>");
+        }
+        //PrintWriter out = response.getWriter();
+        return "<html>\n" +
+                "<head>\n" +
+                "<style>\n" +
+                "table {\n" +
+                "  font-family: arial, sans-serif;\n" +
+                "  border-collapse: collapse;\n" +
+                "  width: 100%;\n" +
+                "}\n" +
+                "\n" +
+                "td, th {\n" +
+                "  border: 1px solid #dddddd;\n" +
+                "  text-align: left;\n" +
+                "  padding: 8px;\n" +
+                "}\n" +
+                "\n" +
+                "tr:nth-child(even) {\n" +
+                "  background-color: #dddddd;\n" +
+                "}\n" +
+                "</style>\n" +
+                "</head>"
+                +("<body>\n")+
+                ("<table>\n" +
+                "  <tr>\n" +
+                "    <th>RegistId</th>\n" +
+                "    <th>Place</th>\n" +
+                "    <th>Situation</th>\n" +
+                "    <th>Longitude</th>\n" +
+                "    <th>Latitude</th>\n" +
+                "  </tr>")+lines+
+                "</table>\n" +
+                "\n" +
+                "</body>\n" +
+                "</html>";
+
+
     }
 
     @RequestMapping(value="/locals/add",method = RequestMethod.POST)
@@ -42,9 +100,58 @@ public class RegistControler {
     }
 
     @GetMapping("/userReg")
-    public Registo getUserRegist() {
+    public String getUserRegist() {
         //return registoRepository.findAllByByuserId((long)2);
-        return registoRepository.findByuserId((long)2);
+        return makeUserTable();
+    }
+
+    private String makeUserTable() {
+
+        Iterable<Registo> all = registoRepository.findByuserId(2);
+        String lines="";
+        for (Registo registo : all) {
+            lines +=("<tr>\n" +
+                    "    <td>" + registo.getRegId() + "</td>\n" +
+                    "    <td>" + registo.getLocalName() + "</td>\n" +
+                    "    <td>" + registo.decodeStituation(registo.regType) + "</td>\n" +
+                    "    <td>" + registo.getLongitude() + "</td>\n" +
+                    "    <td>" + registo.getLatitude() + "</td>\n" +
+                    "  </tr>");
+        }
+        //PrintWriter out = response.getWriter();
+        return "<html>\n" +
+                "<head>\n" +
+                "<style>\n" +
+                "table {\n" +
+                "  font-family: arial, sans-serif;\n" +
+                "  border-collapse: collapse;\n" +
+                "  width: 100%;\n" +
+                "}\n" +
+                "\n" +
+                "td, th {\n" +
+                "  border: 1px solid #dddddd;\n" +
+                "  text-align: left;\n" +
+                "  padding: 8px;\n" +
+                "}\n" +
+                "\n" +
+                "tr:nth-child(even) {\n" +
+                "  background-color: #dddddd;\n" +
+                "}\n" +
+                "</style>\n" +
+                "</head>"
+                +("<body>\n")+
+                ("<table>\n" +
+                        "  <tr>\n" +
+                        "    <th>Place</th>\n" +
+                        "    <th>Situation</th>\n" +
+                        "    <th>Longitude</th>\n" +
+                        "    <th>Latitude</th>\n" +
+                        "  </tr>")+lines+
+                "</table>\n" +
+                "\n" +
+                "</body>\n" +
+                "</html>";
+
     }
 
     @RequestMapping(value="/userPanel/delete",method = RequestMethod.POST)
