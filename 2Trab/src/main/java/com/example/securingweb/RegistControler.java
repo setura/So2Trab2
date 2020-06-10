@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 
 @RestController
@@ -26,6 +27,8 @@ public class RegistControler extends HttpServlet {
 
     @GetMapping("/locals")
     public String getLocals() throws IOException {
+        List<Registo> example= registoRepository.getTest();
+        System.out.println("AQUIII MARIOOOOO" +example.toString());
        return makeTable();
     }
 
