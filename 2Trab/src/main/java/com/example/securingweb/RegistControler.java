@@ -30,7 +30,11 @@ public class RegistControler extends HttpServlet {
     @GetMapping("/locals")
     public String getLocals() throws IOException {
 
+<<<<<<< HEAD
         /*Iterable<Registo> example= registoRepository.getTest();
+=======
+        Iterable<Registo> example= registoRepository.getTest();
+>>>>>>> 46e2b25d09888e21f29eb17862d904d739435b19
         for (Registo votes : example)
         {
             System.out.println("Test "+ votes.localName+" Count -> "+votes.count+" long ->"+votes.longitude+"  latitude"+votes.latitude);
