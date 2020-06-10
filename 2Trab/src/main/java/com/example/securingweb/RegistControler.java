@@ -27,8 +27,13 @@ public class RegistControler extends HttpServlet {
 
     @GetMapping("/locals")
     public String getLocals() throws IOException {
-        List<Registo> example= registoRepository.getTest();
-        System.out.println("AQUIII MARIOOOOO" +example.toString());
+
+        Iterable<Registo> example= registoRepository.getTest();
+        for (Registo votes : example)
+        {
+            System.out.println("Test "+ votes.getLocalName());
+        }
+        System.out.println("AQUIII MARIOOOOO" +example);
        return makeTable();
     }
 
