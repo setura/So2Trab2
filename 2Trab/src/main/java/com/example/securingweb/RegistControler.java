@@ -3,6 +3,7 @@ package com.example.securingweb;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServlet;
@@ -24,6 +25,18 @@ public class RegistControler extends HttpServlet {
     public RegistControler(RegistoRepository registoRepository,UtilizadorRepository utilizadorRepository){
         this.registoRepository=registoRepository;
         this.utilizadorRepository=utilizadorRepository;
+    }
+
+    @PostMapping("/user/add")
+    public String addUser(@RequestParam(name = "name") String name,
+                          @RequestParam(name = "pass") String password)
+    {
+       if( !utilizadorRepository.existsByUserName(name)){
+            utilizadorRepository.save(new Utilizador(name,new BCryptPasswordEncoder().encode(password),"RULE_USER"));
+            return "";
+        }
+       else return "ERROR";
+
     }
 
     @GetMapping("/locals")

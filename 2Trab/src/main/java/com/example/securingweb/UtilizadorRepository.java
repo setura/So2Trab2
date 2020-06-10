@@ -7,4 +7,5 @@ import java.util.List;
 public interface UtilizadorRepository extends CrudRepository<Utilizador, Long> {
 
     Utilizador findByuserName(String name);
+    boolean existsByUserName(String name);
 }
