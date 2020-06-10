@@ -38,7 +38,7 @@ public class RegistControler extends HttpServlet {
         String lines="";
         Registo nextReg;
         Registo reg;
-        boolean flag,reg0,reg1,reg2,reg3;
+        boolean flag,reg0,reg1,reg2;
         /*while (all.iterator().hasNext())
         {
             reg= all.iterator().next();
@@ -68,13 +68,10 @@ public class RegistControler extends HttpServlet {
                         "    <td>" + registo.getLatitude() + "</td>\n" );
                 flag=false;
             }
-            if ( nextReg==null ||(nextReg.localName!= registo.localName ||
-                    nextReg.longitude != registo.longitude ||
+            if ( nextReg==null ||(nextReg.localName!= registo.localName &&
+                    nextReg.longitude != registo.longitude &&
                     nextReg.latitude != registo.latitude))//se o proximo registo for diferente ficamos alertados para o proximo registo
             {
-                reg0=false;
-                reg1=false;
-                reg2=false;
                 flag=true;
 
             }
@@ -107,9 +104,13 @@ public class RegistControler extends HttpServlet {
 
             }else if(registo.regType == 2){
                 reg2=true;
-                if (!reg1)
+                if (!reg0 &&!reg1)
                 {
                     lines+="    <td> 0 </td>\n";
+                    lines+="    <td> 0 </td>\n";
+                }
+                if(!reg1)
+                {
                     lines+="    <td> 0 </td>\n";
                 }
                 lines+="    <td>" + registo.count + "</td>\n";
@@ -123,14 +124,26 @@ public class RegistControler extends HttpServlet {
 
             }
             else if(registo.regType == 3){
-                if (!reg2)
+                if (!reg0 && !reg1 && !reg2 )
                 {
                     lines+="    <td> 0 </td>\n";
                     lines+="    <td> 0 </td>\n";
                     lines+="    <td> 0 </td>\n";
                 }
+                if (!reg2)
+                {
+                    lines+="    <td> 0 </td>\n";
+                }
                 lines+="    <td>" + registo.count + "</td>\n";
 
+            }
+            if ( nextReg==null ||(nextReg.localName!= registo.localName &&
+                    nextReg.longitude != registo.longitude &&
+                    nextReg.latitude != registo.latitude))//se o proximo registo for diferente ficamos alertados para o proximo registo
+            {
+                reg0=false;
+                reg1=false;
+                reg2=false;
             }
 
 
