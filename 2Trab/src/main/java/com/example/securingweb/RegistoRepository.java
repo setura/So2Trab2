@@ -3,6 +3,7 @@ package com.example.securingweb;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
+import java.util.Collection;
 import java.util.List;
 
     public interface RegistoRepository extends CrudRepository<Registo, Long> {
@@ -11,14 +12,21 @@ import java.util.List;
 
     Iterable<Registo> findByuserId(String id);
 
-    @Query(
-            value = "SELECT DISTINCT r.local_name, r.longitude, r.latitude,r.reg_type, Count( r.reg_type ) " +
-                    " From Registo as r " +
-                    " GROUP BY r.local_name, r.longitude, r.latitude,r.reg_type " +
-                    " ORDER BY r.local_name, r.longitude, r.latitude",
-            //value = "SELECT * From registo",
-                nativeQuery = true)
-    Iterable<Registo> getTest();
 
 
-}
+
+
+    /*@Query(
+            value = "SELECT DISTINCT new com.example.securingweb.Registo(r.regId,r.localName, r.longitude, r.latitude,r.regType, Count( r.regType )) " +
+                    " From Registo r " +
+                    " GROUP BY r.localName, r.longitude, r.latitude,r.regType ,r.regId" +
+                    " ORDER BY r.localName, r.longitude, r.latitude",
+            nativeQuery = false
+            )
+    List<Registo> getTest();*/
+
+
+        Iterable<Registo> findDistinctByRegIdAndLocalNameAndLongitudeAndLatitudeAndRegTypeAndCountAndRegType
+                (String local,int longitude,int latitude,int type,long cont);
+
+    }

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Collection;
 import java.util.List;
 
 
@@ -28,12 +29,12 @@ public class RegistControler extends HttpServlet {
     @GetMapping("/locals")
     public String getLocals() throws IOException {
 
-        Iterable<Registo> example= registoRepository.getTest();
+        Iterable<Registo> example= registoRepository.findDistinctByRegIdAndLocalNameAndLongitudeAndLatitudeAndRegTypeAndCountAndRegType(, , , , )
         for (Registo votes : example)
         {
-            System.out.println("Test "+ votes.getLocalName());
+            System.out.println("Test "+ votes.localName);
         }
-        System.out.println("AQUIII MARIOOOOO" +example);
+        System.out.println("AQUIII  " +example);
        return makeTable();
     }
 

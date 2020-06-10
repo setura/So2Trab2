@@ -20,12 +20,13 @@ public class Registo {
     double latitude;
     String localName;
     Date date;
-    int count;
+    long count;
     //SimpleDateFormat parser = new SimpleDateFormat("HH:mm");
 
     public Registo(){}
 
-    public Registo(String userId,int type,double longitude,double latitude,String name){
+    public Registo(String userId,int type,double longitude,double latitude,String name)
+    {
         this.userId = userId;
         this.regType = type;
         this.longitude= longitude;
@@ -33,8 +34,8 @@ public class Registo {
         this.localName = name;
         this.date = new Date();
     }
-    public Registo(long regId,String name,double longitude,double latitude,int type,int count){
-        this.regId=regId;
+    public Registo(long regId,String name,double longitude,double latitude,int type,long count)
+    {
         this.regType = type;
         this.longitude= longitude;
         this.latitude = latitude;
