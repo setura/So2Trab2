@@ -16,17 +16,17 @@ import java.util.List;
 
 
 
-    /*@Query(
+            @Query(
             value = "SELECT DISTINCT new com.example.securingweb.Registo(r.regId,r.localName, r.longitude, r.latitude,r.regType, Count( r.regType )) " +
                     " From Registo r " +
                     " GROUP BY r.localName, r.longitude, r.latitude,r.regType ,r.regId" +
                     " ORDER BY r.localName, r.longitude, r.latitude",
             nativeQuery = false
             )
-    List<Registo> getTest();*/
+            List<Registo> getTest();
 
-
+   /*
         Iterable<Registo> findDistinctByRegIdAndLocalNameAndLongitudeAndLatitudeAndRegTypeAndCountAndRegType
                 (String local,int longitude,int latitude,int type,long cont);
-
+*/
     }

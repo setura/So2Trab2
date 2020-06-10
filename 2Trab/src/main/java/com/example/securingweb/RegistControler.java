@@ -29,7 +29,7 @@ public class RegistControler extends HttpServlet {
     @GetMapping("/locals")
     public String getLocals() throws IOException {
 
-        Iterable<Registo> example= registoRepository.findDistinctByRegIdAndLocalNameAndLongitudeAndLatitudeAndRegTypeAndCountAndRegType(, , , , )
+        Iterable<Registo> example= registoRepository.getTest();
         for (Registo votes : example)
         {
             System.out.println("Test "+ votes.localName);
