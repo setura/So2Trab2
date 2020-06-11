@@ -31,6 +31,8 @@ table {
     font-variant: normal;
 
 }
+
+#mapid { height: 180px; }
 .form input {
     font-family: "Roboto", sans-serif;
     outline: 0;
