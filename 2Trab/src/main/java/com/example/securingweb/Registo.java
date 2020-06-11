@@ -34,7 +34,7 @@ public class Registo {
         this.localName = name;
         this.date = new Date();
     }
-    public Registo(long regId,String name,double longitude,double latitude,int type,long count)
+    public Registo(String name,double longitude,double latitude,int type,long count)
     {
         this.regType = type;
         this.longitude= longitude;

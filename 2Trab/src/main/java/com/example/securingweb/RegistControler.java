@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -41,57 +42,162 @@ public class RegistControler extends HttpServlet {
 
     @GetMapping("/locals")
     public String getLocals() throws IOException {
-
-        Iterable<Registo> example= registoRepository.getTest();
-        for (Registo votes : example)
-        {
-            System.out.println("Test "+ votes.localName);
-        }
-        System.out.println("AQUIII  " +example);
+        //meter aqui novz fun que ia apagar o registos atrasados
        return makeTable();
     }
 
     public String makeTable() throws IOException {
         //response.setContentType("text/html");
-        Iterable<Registo> all = registoRepository.findAll();
+        Iterable<Registo> all = registoRepository.getTest();
         String lines="";
+        Registo nextReg;
+        Registo reg;
+        boolean flag,reg0,reg1,reg2;
+        /*while (all.iterator().hasNext())
+        {
+            reg= all.iterator().next();
+            reg
+        }*/
+
+        flag = true;
+        reg0=false;
+        reg1=false;
+        reg2=false;
+
+        Iterator<Registo> iterador = all.iterator();
+        iterador.next();
         for (Registo registo : all) {
-            lines +=("<tr>\n" +
-                    "    <td>" + registo.getLocalName() + "</td>\n" +
-                    "    <td>" + registo.decodeStituation(registo.regType) + "</td>\n" +
-                    "    <td>" + registo.getLongitude() + "</td>\n" +
-                    "    <td>" + registo.getLatitude() + "</td>\n" +
-                    "  </tr>");
+
+            if (iterador.hasNext())
+            {
+                nextReg = iterador.next();//proximo registo
+            }else{
+                nextReg=null;
+            }
+
+            if(flag){//Se é novo local
+                lines +=("<tr>\n" +
+                        "    <td>" + registo.getLocalName() + "</td>\n" +
+                        "    <td>" + registo.getLongitude() + "</td>\n" +
+                        "    <td>" + registo.getLatitude() + "</td>\n" );
+                flag=false;
+            }
+            if ( nextReg==null ||(nextReg.localName!= registo.localName &&
+                    nextReg.longitude != registo.longitude &&
+                    nextReg.latitude != registo.latitude))//se o proximo registo for diferente ficamos alertados para o proximo registo
+            {
+                flag=true;
+
+            }
+
+            if (registo.regType == 0){
+                reg0=true;
+                lines+="    <td>" + registo.count + "</td>\n";
+                if(flag)
+                {
+                    lines+="    <td> 0 </td>\n";
+                    lines+="    <td> 0 </td>\n";
+                    lines+="    <td> 0 </td>\n";
+
+                }
+            }else if(registo.regType == 1)
+            {
+                reg1=true;
+                if (!reg0)
+                {
+                    lines+="    <td> 0 </td>\n";
+                }
+                lines+="    <td>" + registo.count + "</td>\n";
+
+                if(flag)
+                {
+                    lines+="    <td> 0 </td>\n";
+                    lines+="    <td> 0 </td>\n";
+
+                }
+
+            }else if(registo.regType == 2){
+                reg2=true;
+                if (!reg0 &&!reg1)
+                {
+                    lines+="    <td> 0 </td>\n";
+                    lines+="    <td> 0 </td>\n";
+                }
+                if(!reg1)
+                {
+                    lines+="    <td> 0 </td>\n";
+                }
+                lines+="    <td>" + registo.count + "</td>\n";
+                if(flag)
+                {
+                    lines+="    <td> 0 </td>\n";
+
+                }
+
+            }
+            else if(registo.regType == 3){
+                if (!reg0 && !reg1 && !reg2 )
+                {
+                    lines+="    <td> 0 </td>\n";
+                    lines+="    <td> 0 </td>\n";
+                    lines+="    <td> 0 </td>\n";
+                }
+                if (!reg2)
+                {
+                    lines+="    <td> 0 </td>\n";
+                }
+                lines+="    <td>" + registo.count + "</td>\n";
+
+            }
+            if ( nextReg==null ||(nextReg.localName!= registo.localName &&
+                    nextReg.longitude != registo.longitude &&
+                    nextReg.latitude != registo.latitude))//se o proximo registo for diferente ficamos alertados para o proximo registo
+            {
+                reg0=false;
+                reg1=false;
+                reg2=false;
+            }
+
+
         }
+
+
+
+
+
         //PrintWriter out = response.getWriter();
         return "<html>\n" +
                 "<head>\n" +
                 "<style>\n" +
                 "table {\n" +
-                "  font-family: arial, sans-serif;\n" +
+                "  font-family: font-family: \"Roboto\", sans-serif;\n" +
                 "  border-collapse: collapse;\n" +
                 "  width: 100%;\n" +
                 "}\n" +
                 "\n" +
                 "td, th {\n" +
-                "  border: 1px solid #dddddd;\n" +
+                "  border: 1px solid #000000;\n" +
                 "  text-align: left;\n" +
                 "  padding: 8px;\n" +
                 "}\n" +
                 "\n" +
                 "tr:nth-child(even) {\n" +
-                "  background-color: #dddddd;\n" +
-                "}\n" +
+                "  background-color: #4CAF50;\n" +
+                "}\n"+
+                "body {background-color: #dddddd;}"+
                 "</style>\n" +
                 "</head>"
                 +("<body>\n")+
                 ("<table>\n" +
                 "  <tr>\n" +
                 "    <th>Place</th>\n" +
-                "    <th>Situation</th>\n" +
                 "    <th>Longitude</th>\n" +
                 "    <th>Latitude</th>\n" +
-                "  </tr>")+lines+
+                "    <th>Empty</th>\n" +
+                "    <th>With few people</th>\n" +
+                "    <th>Full</th>\n" +
+                "    <th>Full with queue</th>\n"+
+                "  </tr>")+lines+"  </tr>"+
                 "</table>\n" +
                 "\n" +
                 "</body>\n" +
