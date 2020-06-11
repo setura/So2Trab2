@@ -41,28 +41,25 @@ public class RegistControler extends HttpServlet {
 
     @GetMapping("/locals")
     public String getLocals() throws IOException {
-
-        Iterable<Registo> example= registoRepository.getTest();
-        for (Registo votes : example)
-        {
-            System.out.println("Test "+ votes.localName);
-        }
-        System.out.println("AQUIII  " +example);
-       return makeTable();
-    }
-
-    public String makeTable() throws IOException {
-        //response.setContentType("text/html");
-        Iterable<Registo> all = registoRepository.findAll();
         String lines="";
-        for (Registo registo : all) {
+        Iterable<Registo> regs= registoRepository.getTest();
+        for (Registo reg : regs)
+        {
             lines +=("<tr>\n" +
-                    "    <td>" + registo.getLocalName() + "</td>\n" +
-                    "    <td>" + registo.decodeStituation(registo.regType) + "</td>\n" +
-                    "    <td>" + registo.getLongitude() + "</td>\n" +
-                    "    <td>" + registo.getLatitude() + "</td>\n" +
+                    "    <td>" + reg.getLocalName() + "</td>\n" +
+                    "    <td>" + reg.getLongitude() + "</td>\n" +
+                    "    <td>" + reg.getLatitude() + "</td>\n" +
+                    "    <td>" + reg.decodeStituation(reg.regType) + "</td>\n" +
+                    "    <td>" + reg.count + "</td>\n" +
                     "  </tr>");
         }
+
+       return makeTable(lines);
+    }
+
+    public String makeTable(String lines) throws IOException {
+        //response.setContentType("text/html");
+        Iterable<Registo> all = registoRepository.findAll();
         //PrintWriter out = response.getWriter();
         return "<html>\n" +
                 "<head>\n" +
@@ -88,9 +85,10 @@ public class RegistControler extends HttpServlet {
                 ("<table>\n" +
                 "  <tr>\n" +
                 "    <th>Place</th>\n" +
-                "    <th>Situation</th>\n" +
                 "    <th>Longitude</th>\n" +
                 "    <th>Latitude</th>\n" +
+                "    <th>Situation</th>\n" +
+                "    <th>Count</th>\n" +
                 "  </tr>")+lines+
                 "</table>\n" +
                 "\n" +
