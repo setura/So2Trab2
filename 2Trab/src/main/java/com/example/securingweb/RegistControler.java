@@ -3,6 +3,7 @@ package com.example.securingweb;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServlet;
@@ -27,6 +28,17 @@ public class RegistControler extends HttpServlet {
         this.utilizadorRepository=utilizadorRepository;
     }
 
+    @PostMapping("/user/add")
+    public String addUser(@RequestParam(name = "name") String name,
+                          @RequestParam(name = "pass") String password)
+    {
+       if( !utilizadorRepository.existsByUserName(name)){
+            utilizadorRepository.save(new Utilizador(name,new BCryptPasswordEncoder().encode(password),"RULE_USER"));
+            return "";
+        }
+       else return "ERROR";
+
+    }
 
     @GetMapping("/locals")
     public String getLocals() throws IOException {
@@ -70,8 +82,8 @@ public class RegistControler extends HttpServlet {
                         "    <td>" + registo.getLatitude() + "</td>\n" );
                 flag=false;
             }
-            if ( nextReg==null ||(nextReg.localName!= registo.localName &&
-                    nextReg.longitude != registo.longitude &&
+            if ( nextReg==null ||(nextReg.localName.compareTo(registo.localName)!=0 ||
+                    nextReg.longitude != registo.longitude ||
                     nextReg.latitude != registo.latitude))//se o proximo registo for diferente ficamos alertados para o proximo registo
             {
                 flag=true;
@@ -94,6 +106,7 @@ public class RegistControler extends HttpServlet {
                 if (!reg0)
                 {
                     lines+="    <td> 0 </td>\n";
+                    reg0=true;
                 }
                 lines+="    <td>" + registo.count + "</td>\n";
 
@@ -106,14 +119,15 @@ public class RegistControler extends HttpServlet {
 
             }else if(registo.regType == 2){
                 reg2=true;
-                if (!reg0 &&!reg1)
+                if (!reg0 )
                 {
                     lines+="    <td> 0 </td>\n";
-                    lines+="    <td> 0 </td>\n";
+                    reg0=true;
                 }
                 if(!reg1)
                 {
                     lines+="    <td> 0 </td>\n";
+                    reg1=true;
                 }
                 lines+="    <td>" + registo.count + "</td>\n";
                 if(flag)
@@ -124,11 +138,15 @@ public class RegistControler extends HttpServlet {
 
             }
             else if(registo.regType == 3){
-                if (!reg0 && !reg1 && !reg2 )
+                if (!reg0)
                 {
                     lines+="    <td> 0 </td>\n";
+
+                }
+                if(!reg1)
+                {
                     lines+="    <td> 0 </td>\n";
-                    lines+="    <td> 0 </td>\n";
+
                 }
                 if (!reg2)
                 {
@@ -137,8 +155,8 @@ public class RegistControler extends HttpServlet {
                 lines+="    <td>" + registo.count + "</td>\n";
 
             }
-            if ( nextReg==null ||(nextReg.localName!= registo.localName &&
-                    nextReg.longitude != registo.longitude &&
+            if ( nextReg==null ||(nextReg.localName.compareTo(registo.localName)!=0 ||
+                    nextReg.longitude != registo.longitude ||
                     nextReg.latitude != registo.latitude))//se o proximo registo for diferente ficamos alertados para o proximo registo
             {
                 reg0=false;

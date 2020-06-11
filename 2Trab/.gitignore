@@ -1,0 +1,8 @@
+DS_Store
+.gradle
+.ideia
+.settings
+.project
+gradlew
+gradle.bat
+
