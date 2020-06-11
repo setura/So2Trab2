@@ -11,37 +11,79 @@ import java.util.Date;
 @Entity
 public class Registo {
 
+
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     long regId;
     String userId;
-    int regType;// 0,vazio ;1,poucas pessoas; 2,cheio; 3, cheio com fila
-    double longitude;
+    long emp_ty, few_people,fu_ll,full_w_queue;
+
+
+
     double latitude;
+    double longitude;
     String localName;
     Date date;
-    long count;
     //SimpleDateFormat parser = new SimpleDateFormat("HH:mm");
 
     public Registo(){}
 
-    public Registo(String userId,int type,double longitude,double latitude,String name)
-    {
+    public Registo( String userId, double latitude, double longitude, String localName,int type) {
         this.userId = userId;
-        this.regType = type;
-        this.longitude= longitude;
         this.latitude = latitude;
-        this.localName = name;
+        this.longitude = longitude;
+        this.localName = localName;
         this.date = new Date();
+        switch (type)
+        {
+            case 0:
+                this.emp_ty=1;
+                this.few_people=0;
+                this.fu_ll=0;
+                this.full_w_queue=0;
+                break;
+            case 1:
+                this.emp_ty=0;
+                this.few_people=1;
+                this.fu_ll=0;
+                this.full_w_queue=0;
+                break;
+            case 2:
+                this.emp_ty=0;
+                this.few_people=0;
+                this.fu_ll=1;
+                this.full_w_queue=0;
+                break;
+            case 3:
+                this.emp_ty=0;
+                this.few_people=0;
+                this.fu_ll=0;
+                this.full_w_queue=1;
+                break;
+        }
     }
-    public Registo(String name,double longitude,double latitude,int type,long count)
+
+
+    public Registo(String localName,double latitude, double longitude,long emp_ty, long few_people, long fu_ll, long full_w_queue) {
+        this.emp_ty = emp_ty;
+        this.few_people = few_people;
+        this.fu_ll = fu_ll;
+        this.full_w_queue = full_w_queue;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.localName = localName;
+    }
+
+    /*public Registo(String name,double longitude,double latitude,int type,long count)
     {
         this.regType = type;
         this.longitude= longitude;
         this.latitude = latitude;
         this.localName = name;
         this.count=count;
-    }
+    }*/
 
     public long getRegId() {
         return regId;
@@ -59,10 +101,6 @@ public class Registo {
         return latitude;
     }
 
-    public int getRegType() {
-        return regType;
-    }
-
     public Date getDate() {
         return date;
     }
@@ -71,25 +109,23 @@ public class Registo {
         return userId;
     }
 
-    public String decodeStituation(int regType)
+    public String decodeStituation()
     {
-        switch (regType){
-            case 0:
-                return "Vazio ou com mínima lotação";
 
-            case 1:
-                return "com pessoas, mas espaço suficiente";
+        if(this.emp_ty==1)
+            return "Empty";
 
-            case 2:
-                return "Muito cheio";
+        if(this.few_people==1)
+                return "Only a few people";
 
-            case 3:
-                return "Muito cheio e com fila de espera";
+        if(this.fu_ll==1)
+                return "Full";
 
-            default:
-                return "Situação não conhecida";
+        if(this.full_w_queue==1)
+                return "Full with queue";
 
-        }
+        return "Unknown Situation";
+
     }
 
 

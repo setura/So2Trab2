@@ -25,16 +25,27 @@ import java.util.List;
 
 
     @Query(
-            value = "SELECT DISTINCT new com.example.securingweb.Registo(r.localName, r.longitude, r.latitude,r.regType, Count( r.regType )) " +
-                    " From Registo r " +
-                    " GROUP BY r.localName, r.longitude, r.latitude,r.regType " +
-                    " ORDER BY r.localName, r.longitude, r.latitude",
+            value = "SELECT DISTINCT new com.example.securingweb.Registo(r.localName, r.latitude,r.longitude, SUM(r.emp_ty), SUM(r.few_people),Sum(r.fu_ll) , Sum(r.full_w_queue))\n" +
+                    "From Registo r\n" +
+                    "GROUP BY r.localName, r.longitude , r.latitude \n" +
+                    "ORDER BY r.localName, r.longitude, r.latitude",
             nativeQuery = false
             )
 
-            List<Registo> getTest();
+            List<Registo> getCompleteTable();
 
+        /*@Query(
+                value = "SELECT DISTINCT new com.example.securingweb.Registo(r.localName, r.longitude, r.latitude,r.regType, Count( r.regType )) " +
+                        " From Registo r " +
+                        " GROUP BY r.localName, r.longitude, r.latitude,r.regType " +
+                        " ORDER BY r.localName, r.longitude, r.latitude",
+                nativeQuery = false
+        )
+
+        List<Registo> getTest();
+*/
    /*
+
         Iterable<Registo> findDistinctByRegIdAndLocalNameAndLongitudeAndLatitudeAndRegTypeAndCountAndRegType
                 (String local,int longitude,int latitude,int type,long cont);
 */

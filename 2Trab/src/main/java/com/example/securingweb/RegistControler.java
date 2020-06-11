@@ -54,131 +54,19 @@ public class RegistControler extends HttpServlet {
 
     public String makeTable(){
         //response.setContentType("text/html");
-        Iterable<Registo> all = registoRepository.getTest();
+        Iterable<Registo> all = registoRepository.getCompleteTable();
         String lines="";
-        Registo nextReg;
-        Registo reg;
-        boolean flag,reg0,reg1,reg2;
-        /*while (all.iterator().hasNext())
-        {
-            reg= all.iterator().next();
-            reg
-        }*/
-
-        flag = true;
-        reg0=false;
-        reg1=false;
-        reg2=false;
-
-        Iterator<Registo> iterador = all.iterator();
-        try{
-            iterador.next();
-        }catch (RuntimeException targetException) {}
-
-        for (Registo registo : all) {
-
-            if (iterador.hasNext())
-            {
-                nextReg = iterador.next();//proximo registo
-            }else{
-                nextReg=null;
-            }
-
-            if(flag){//Se é novo local
-                lines +=("<tr>\n" +
-                        "    <td>" + registo.getLocalName() + "</td>\n" +
-                        "    <td>" + registo.getLongitude() + "</td>\n" +
-                        "    <td>" + registo.getLatitude() + "</td>\n" );
-                flag=false;
-            }
-            if ( nextReg==null ||(nextReg.localName.compareTo(registo.localName)!=0 ||
-                    nextReg.longitude != registo.longitude ||
-                    nextReg.latitude != registo.latitude))//se o proximo registo for diferente ficamos alertados para o proximo registo
-            {
-                flag=true;
-
-            }
-
-            if (registo.regType == 0){
-                reg0=true;
-                lines+="    <td>" + registo.count + "</td>\n";
-                if(flag)
-                {
-                    lines+="    <td> 0 </td>\n";
-                    lines+="    <td> 0 </td>\n";
-                    lines+="    <td> 0 </td>\n";
-
-                }
-            }else if(registo.regType == 1)
-            {
-                reg1=true;
-                if (!reg0)
-                {
-                    lines+="    <td> 0 </td>\n";
-                    reg0=true;
-                }
-                lines+="    <td>" + registo.count + "</td>\n";
-
-                if(flag)
-                {
-                    lines+="    <td> 0 </td>\n";
-                    lines+="    <td> 0 </td>\n";
-
-                }
-
-            }else if(registo.regType == 2){
-                reg2=true;
-                if (!reg0 )
-                {
-                    lines+="    <td> 0 </td>\n";
-                    reg0=true;
-                }
-                if(!reg1)
-                {
-                    lines+="    <td> 0 </td>\n";
-                    reg1=true;
-                }
-                lines+="    <td>" + registo.count + "</td>\n";
-                if(flag)
-                {
-                    lines+="    <td> 0 </td>\n";
-
-                }
-
-            }
-            else if(registo.regType == 3){
-                if (!reg0)
-                {
-                    lines+="    <td> 0 </td>\n";
-
-                }
-                if(!reg1)
-                {
-                    lines+="    <td> 0 </td>\n";
-
-                }
-                if (!reg2)
-                {
-                    lines+="    <td> 0 </td>\n";
-                }
-                lines+="    <td>" + registo.count + "</td>\n";
-
-            }
-            if ( nextReg==null ||(nextReg.localName.compareTo(registo.localName)!=0 ||
-                    nextReg.longitude != registo.longitude ||
-                    nextReg.latitude != registo.latitude))//se o proximo registo for diferente ficamos alertados para o proximo registo
-            {
-                reg0=false;
-                reg1=false;
-                reg2=false;
-            }
-
-
+        for (Registo registo:all) {
+            lines+= ("<tr>\n" +
+                    "    <td>" + registo.localName + "</td>\n" +
+                    "    <td>" + registo.latitude + "</td>\n" +
+                    "    <td>" + registo.longitude + "</td>\n" +
+                    "    <td>" + registo.emp_ty + "</td>\n" +
+                    "    <td>" + registo.few_people + "</td>\n" +
+                    "    <td>" + registo.fu_ll + "</td>\n" +
+                    "    <td>" + registo.full_w_queue + "</td>\n" +
+                    "  </tr>");
         }
-
-
-
-
 
         //PrintWriter out = response.getWriter();
         return "<html>\n" +
@@ -230,8 +118,8 @@ public class RegistControler extends HttpServlet {
                 ("<table>\n" +
                 "  <tr>\n" +
                 "    <th>Place</th>\n" +
-                "    <th>Longitude</th>\n" +
                 "    <th>Latitude</th>\n" +
+                "    <th>Longitude</th>\n" +
                 "    <th>Empty</th>\n" +
                 "    <th>With few people</th>\n" +
                 "    <th>Full</th>\n" +
@@ -278,7 +166,7 @@ public class RegistControler extends HttpServlet {
         int typeValue=Integer.parseInt(value);
         Double longitude=Double.parseDouble(lon);
         Double latitude=Double.parseDouble(lat);
-        registoRepository.save(new Registo(currentPrincipalName,typeValue, longitude,latitude, name));
+        registoRepository.save(new Registo(currentPrincipalName, latitude, longitude, name, typeValue));
 
         return "<a href=\"javascript:history.go(-1)\">Go Back</a>";
 
@@ -300,7 +188,7 @@ public class RegistControler extends HttpServlet {
             lines +=("<tr>\n" +
                     "    <td>" + registo.getRegId() + "</td>\n" +
                     "    <td>" + registo.getLocalName() + "</td>\n" +
-                    "    <td>" + registo.decodeStituation(registo.regType) + "</td>\n" +
+                    "    <td>" + registo.decodeStituation() + "</td>\n" +
                     "    <td>" + registo.getLongitude() + "</td>\n" +
                     "    <td>" + registo.getLatitude() + "</td>\n" +
                     "  </tr>");
