@@ -17,9 +17,9 @@ import java.util.List;
 
 
             @Query(
-            value = "SELECT DISTINCT new com.example.securingweb.Registo(r.regId,r.localName, r.longitude, r.latitude,r.regType, Count( r.regType )) " +
+            value = "SELECT DISTINCT new com.example.securingweb.Registo(r.localName, r.longitude, r.latitude,r.regType, Count( r.regType )) " +
                     " From Registo r " +
-                    " GROUP BY r.localName, r.longitude, r.latitude,r.regType ,r.regId" +
+                    " GROUP BY r.localName, r.longitude, r.latitude,r.regType " +
                     " ORDER BY r.localName, r.longitude, r.latitude",
             nativeQuery = false
             )
