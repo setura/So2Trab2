@@ -13,6 +13,11 @@ import java.util.List;
 
     Iterable<Registo> findByuserId(String id);
 
+        @Query(value = "Select DISTINCT * from registo",
+                nativeQuery = true)
+    Iterable<Registo> findAllDistinct();
+
+
 
     @Query(value = "delete from registo where date < now() - interval '1 hour'",
     nativeQuery = true)
