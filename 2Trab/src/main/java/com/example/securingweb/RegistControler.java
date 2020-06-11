@@ -27,8 +27,10 @@ public class RegistControler extends HttpServlet {
         this.utilizadorRepository=utilizadorRepository;
     }
 
+
     @GetMapping("/locals")
     public String getLocals() throws IOException {
+        //meter aqui novz fun que ia apagar o registos atrasados
        return makeTable();
     }
 
@@ -120,8 +122,6 @@ public class RegistControler extends HttpServlet {
 
                 }
 
-
-
             }
             else if(registo.regType == 3){
                 if (!reg0 && !reg1 && !reg2 )
@@ -158,20 +158,21 @@ public class RegistControler extends HttpServlet {
                 "<head>\n" +
                 "<style>\n" +
                 "table {\n" +
-                "  font-family: arial, sans-serif;\n" +
+                "  font-family: font-family: \"Roboto\", sans-serif;\n" +
                 "  border-collapse: collapse;\n" +
                 "  width: 100%;\n" +
                 "}\n" +
                 "\n" +
                 "td, th {\n" +
-                "  border: 1px solid #dddddd;\n" +
+                "  border: 1px solid #000000;\n" +
                 "  text-align: left;\n" +
                 "  padding: 8px;\n" +
                 "}\n" +
                 "\n" +
                 "tr:nth-child(even) {\n" +
-                "  background-color: #dddddd;\n" +
-                "}\n" +
+                "  background-color: #4CAF50;\n" +
+                "}\n"+
+                "body {background-color: #dddddd;}"+
                 "</style>\n" +
                 "</head>"
                 +("<body>\n")+
