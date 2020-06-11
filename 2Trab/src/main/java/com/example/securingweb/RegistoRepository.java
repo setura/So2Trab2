@@ -13,9 +13,8 @@ import java.util.List;
 
     Iterable<Registo> findByuserId(String id);
 
-        @Query(value = "Select DISTINCT * from registo",
-                nativeQuery = true)
-    Iterable<Registo> findAllDistinct();
+
+
 
 
 

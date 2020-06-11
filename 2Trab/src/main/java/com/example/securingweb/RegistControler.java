@@ -99,7 +99,8 @@ public class RegistControler extends HttpServlet {
                 "\n" +
                 "\t\tfor (var i = 0; i < locals.length; i++) {\n" +
                 "\t\t\tmarker = new L.marker([locals[i][1],locals[i][2]])\n" +
-                "\t.bindPopup(locals[i][0])\n" +
+
+                ".bindPopup(\"<b>\"+locals[i][0]+\"</b><br>Empty: \"+locals[i][3] +\"<br>Few people: \"+locals[i][4]+\"<br>Full: \"+locals[i][5] +\"<br>Full w/Queue: \"+locals[i][6])"+
                 ".\taddTo(mymap);\n" +
                 "\t\t}"+
                 "\n" +
@@ -134,12 +135,12 @@ public class RegistControler extends HttpServlet {
     }
 
     private String addLocalToMap() {
-        Iterable<Registo> locals =registoRepository.findAllDistinct();
+        Iterable<Registo> locals =registoRepository.getCompleteTable();
         String returnString="var locals =[ ";
 
         Iterator<Registo> iterador = locals.iterator();
         for (Registo registo : locals) {
-            returnString+= '['+"\""+registo.localName+"\""+','+registo.latitude+','+registo.longitude+']';
+            returnString+= '['+"\""+registo.localName+"\""+','+registo.latitude+','+registo.longitude+','+registo.emp_ty+','+registo.few_people+','+registo.fu_ll+','+registo.full_w_queue+']';
             if(iterador.hasNext())
             {
                 try{
