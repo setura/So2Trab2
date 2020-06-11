@@ -6,6 +6,21 @@
     <link rel="stylesheet" type="text/css" href="css/add_css.css">
 </head>
 <body>
+
+
+    <div class="header">
+        <a href="/home" class="logo">CompanyLogo</a>
+        <div class="header-right">
+            <a class="active" href="/userPanel">Control Panel</a>
+            <a class="active">
+            <form th:action="@{/logout}" method="post">
+                    <button>Sign Out</button>
+                </form>
+            </a>
+        </div>
+    </div>
+
+
     <div class="form">
     <h1 th:inline="text">Regist Local Condiction</h1>
     <h3 th:inline="text">User: [[${#httpServletRequest.remoteUser}]]!</h3>
