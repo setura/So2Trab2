@@ -1,5 +1,6 @@
 package com.example.securingweb;
 
+import org.hibernate.engine.jdbc.spi.SqlExceptionHelper;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
@@ -13,8 +14,9 @@ import java.util.List;
     Iterable<Registo> findByuserId(String id);
 
 
-
-
+    @Query(value = "delete from registo where date < now() - interval '1 hour'",
+    nativeQuery = true)
+    void deleteLastHour() throws Exception;
 
 
     @Query(

@@ -1,5 +1,6 @@
 package com.example.securingweb;
 
+import org.hibernate.engine.jdbc.spi.SqlExceptionHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,6 +15,7 @@ import java.io.PrintWriter;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Logger;
 
 
 @RestController
@@ -42,6 +44,10 @@ public class RegistControler extends HttpServlet {
 
     @GetMapping("/locals")
     public String getLocals() throws IOException {
+        try{
+            registoRepository.deleteLastHour();
+        }catch (Exception e) {}
+
         //meter aqui novz fun que ia apagar o registos atrasados
        return makeTable();
     }
@@ -174,26 +180,9 @@ public class RegistControler extends HttpServlet {
         //PrintWriter out = response.getWriter();
         return "<html>\n" +
                 "<head>\n" +
-                "<style>\n" +
-                "table {\n" +
-                "  font-family: font-family: \"Roboto\", sans-serif;\n" +
-                "  border-collapse: collapse;\n" +
-                "  width: 100%;\n" +
-                "}\n" +
-                "\n" +
-                "td, th {\n" +
-                "  border: 1px solid #000000;\n" +
-                "  text-align: left;\n" +
-                "  padding: 8px;\n" +
-                "}\n" +
-                "\n" +
-                "tr:nth-child(even) {\n" +
-                "  background-color: #4CAF50;\n" +
-                "}\n"+
-                "body {background-color: #dddddd;}"+
-                "</style>\n" +
-                "</head>"
-                +("<body>\n")+
+                "<link rel=\"stylesheet\" type=\"text/css\" href=\"css/table_css.css\">\n"+
+                "</head>\n"  +
+                ("<body>\n")+("<div class=\"form\">\n")+
                 ("<table>\n" +
                 "  <tr>\n" +
                 "    <th>Place</th>\n" +
@@ -205,7 +194,7 @@ public class RegistControler extends HttpServlet {
                 "    <th>Full with queue</th>\n"+
                 "  </tr>")+lines+"  </tr>"+
                 "</table>\n" +
-                "\n" +
+                "\n" + "</div>\n" +
                 "</body>\n" +
                 "</html>";
 
