@@ -19,7 +19,7 @@ public class Registo {
     long regId;
     String userId;
     long emp_ty, few_people,fu_ll,full_w_queue;
-
+    double dist;
 
 
     double latitude;
@@ -74,6 +74,12 @@ public class Registo {
         this.latitude = latitude;
         this.longitude = longitude;
         this.localName = localName;
+    }
+    public Registo(String localName,double latitude, double longitude,double dist) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.localName = localName;
+        this.dist=dist;
     }
 
     /*public Registo(String name,double longitude,double latitude,int type,long count)

@@ -14,9 +14,14 @@ import java.util.List;
     Iterable<Registo> findByuserId(String id);
 
 
-        @Query("Select local_name, latitude, longitude, SQRT( POWER((?1 - latitude),2)+ POWER((?2 - longitude),2) ) as Dist" +
-                "From registo " +
-                "Order by Dist")
+
+        @Query(
+                value = "SELECT DISTINCT new com.example.securingweb.Registo(r.localName, r.latitude,r.longitude,SQRT( POWER(?1 -latitude,2)+ POWER((?2-longitude),2)))\n" +
+                "From Registo r\n"+
+                "GROUP BY r.localName, r.longitude , r.latitude\n" +
+                "ORDER BY r.localName, r.longitude , r.latitude\n",
+
+                nativeQuery = false)
         Iterable<Registo> findClossest(double lat, double longitude) throws Exception;
 
 
