@@ -12,9 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
+import java.lang.reflect.Array;
+import java.util.*;
 import java.util.logging.Logger;
 
 
@@ -263,16 +262,27 @@ public class RegistControler extends HttpServlet {
         return makeNearTable(lat,longitude);
     }
 
+    public int compare(Registo r1, Registo r2) {
+        return Double.compare(r1.dist, r2.dist);
+    }
     public String makeNearTable(double lat,double longitude){
         //response.setContentType("text/html");
         Iterable<Registo> all = null;
+        ArrayList<Registo> sorted = new ArrayList<>();
         try {
             all = registoRepository.findClossest(lat,longitude);
+            for (Registo regs:all) {
+                sorted.add(regs);
+                
+            }
+            sorted.sort(this::compare);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-        String lines="";
-        for (Registo registo:all) {
+
+            String lines="";
+        for (Registo registo:sorted) {
             lines+= ("<tr>\n" +
                     "    <td>" + registo.localName + "</td>\n" +
                     "    <td>" + registo.latitude + "</td>\n" +
@@ -281,6 +291,7 @@ public class RegistControler extends HttpServlet {
                     "    <td>" + registo.few_people + "</td>\n" +
                     "    <td>" + registo.fu_ll + "</td>\n" +
                     "    <td>" + registo.full_w_queue + "</td>\n" +
+                    "    <td>" + registo.dist + "</td>\n" +
                     "  </tr>");
         }
 
@@ -305,11 +316,6 @@ public class RegistControler extends HttpServlet {
                 "                </form>\n" +
                 "            </a>\n" +
                 "        </div>\n" +
-                " <div> <form th:action=\"@{/user/add}\" method=\"post\" class=\"login-form\">\n" +
-                "            <input type=\"text\" id=\"name\" name=\"lat\" placeholder=\"Latitude\"/>\n" +
-                "            <input type=\"password\" id=\"pass\" name=\"long\" placeholder=\"Longitude\"/>\n" +
-                "            <button>Get nearest marker</button>\n" +
-                "        </form> </div>"+
                 "    </div>\n"+
                 " <div id=\"mapid\" style=\"width: auto; height: 400px; position: relative; outline: none;\" class=\"leaflet-container leaflet-retina leaflet-fade-anim leaflet-grab leaflet-touch-drag\" tabindex=\"0\"><div class=\"leaflet-pane leaflet-map-pane\" style=\"transform: translate3d(0px, 0px, 0px);\"><div class=\"leaflet-pane leaflet-tile-pane\"><div class=\"leaflet-layer \" style=\"z-index: 1; opacity: 1;\"><div class=\"leaflet-tile-container leaflet-zoom-animated\" style=\"z-index: 18; transform: translate3d(0px, 0px, 0px) scale(1);\"><img alt=\"\" role=\"presentation\" src=\"https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/12/2046/1361?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw\" class=\"leaflet-tile leaflet-tile-loaded\" style=\"width: 512px; height: 512px; transform: translate3d(-200px, -347px, 0px); opacity: 1;\"><img alt=\"\" role=\"presentation\" src=\"https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/12/2047/1361?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw\" class=\"leaflet-tile leaflet-tile-loaded\" style=\"width: 512px; height: 512px; transform: translate3d(312px, -347px, 0px); opacity: 1;\"><img alt=\"\" role=\"presentation\" src=\"https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/12/2046/1362?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw\" class=\"leaflet-tile leaflet-tile-loaded\" style=\"width: 512px; height: 512px; transform: translate3d(-200px, 165px, 0px); opacity: 1;\"><img alt=\"\" role=\"presentation\" src=\"https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/12/2047/1362?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw\" class=\"leaflet-tile leaflet-tile-loaded\" style=\"width: 512px; height: 512px; transform: translate3d(312px, 165px, 0px); opacity: 1;\"></div></div></div><div class=\"leaflet-pane leaflet-shadow-pane\"></div><div class=\"leaflet-pane leaflet-overlay-pane\"></div><div class=\"leaflet-pane leaflet-marker-pane\"></div><div class=\"leaflet-pane leaflet-tooltip-pane\"></div><div class=\"leaflet-pane leaflet-popup-pane\"></div><div class=\"leaflet-proxy leaflet-zoom-animated\" style=\"transform: translate3d(1.04805e+06px, 697379px, 0px) scale(4096);\"></div></div><div class=\"leaflet-control-container\"><div class=\"leaflet-top leaflet-left\"><div class=\"leaflet-control-zoom leaflet-bar leaflet-control\"><a class=\"leaflet-control-zoom-in\" href=\"#\" title=\"Zoom in\" role=\"button\" aria-label=\"Zoom in\">+</a><a class=\"leaflet-control-zoom-out\" href=\"#\" title=\"Zoom out\" role=\"button\" aria-label=\"Zoom out\">−</a></div></div><div class=\"leaflet-top leaflet-right\"></div><div class=\"leaflet-bottom leaflet-left\"></div><div class=\"leaflet-bottom leaflet-right\"><div class=\"leaflet-control-attribution leaflet-control\"><a href=\"https://leafletjs.com\" title=\"A JS library for interactive maps\">Leaflet</a> | Map data © <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a></div></div></div></div>"+
                 "<script>\n" +
@@ -346,6 +352,7 @@ public class RegistControler extends HttpServlet {
                         "    <th>With few people</th>\n" +
                         "    <th>Full</th>\n" +
                         "    <th>Full with queue</th>\n"+
+                        "    <th>Dist</th>\n"+
                         "  </tr>")+lines+"  </tr>"+
                 "</table>\n" +
                 "\n" + "</div>\n" +

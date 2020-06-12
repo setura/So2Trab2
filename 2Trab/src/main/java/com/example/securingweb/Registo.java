@@ -135,4 +135,11 @@ public class Registo {
     }
 
 
+    public int compareTo(Registo o) {
+        // usually toString should not be used,
+        // instead one of the attributes or more in a comparator chain
+        return toString().compareTo(o.toString());
+    }
+
+
 }
