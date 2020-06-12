@@ -5,16 +5,26 @@
     padding: 8% 0 0;
     margin: auto;
 }
+.form h1{
+    font-family: "Roboto", sans-serif;
+    text-transform: uppercase;
+    color: black;
+    text-align: center;
+    text-decoration: none;
+    line-height: 25px;
+    border-radius: 4px;
+}
 .form {
     position: relative;
     z-index: 1;
     background: #FFFFFF;
-    max-width: 360px;
+    width: 500px;
     margin: 0 auto 100px;
     padding: 45px;
     text-align: center;
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }
+
 .form input {
     font-family: "Roboto", sans-serif;
     outline: 0;
@@ -31,9 +41,11 @@
     text-transform: uppercase;
     outline: 0;
     background: #4CAF50;
-    width: 100%;
+    width: 90%;
     border: 0;
+    border-radius: 10px;
     padding: 15px;
+    margin: 10px;
     color: #FFFFFF;
     font-size: 14px;
     -webkit-transition: all 0.3 ease;

@@ -1,16 +1,41 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
     <head>
-        <title>Spring Security Example</title>
+        <title>Home</title>
+        <link rel="stylesheet" type="text/css" href="/css/home_css.css">
     </head>
     <body>
-        <h1>Welcome!</h1>
-        
-        <p>Click <a th:href="@{/hello}">here</a> to see a greeting.</p>
-        <p>Click <a th:href="@{/locals}">here</a> to see locals</p>
-        <p>Click <a th:href="@{/near}">here</a> to search the nearest place</p>
-        <p>Click <a th:href="@{/add}">here</a> to add regist</p>
-        <p>Click <a th:href="@{/userPanel}">here</a> to go user panel</p>
 
+        <div class="header">
+            <a href="/home" class="logo">CompanyLogo</a>
+            <div class="header-right">
+                <a class="active" href="/userPanel">Control Panel</a>
+                <a class="active">
+                    <form th:action="@{/logout}" method="post">
+                        <button>Sign Out</button>
+                    </form>
+                </a>
+            </div>
+        </div>
+        <div class="form">
+        <h1>Locals Stats</h1>
+
+            <div class="botoes">
+                <form th:action="@{/locals}" method="get">
+                    <button>Click here to see locals</button>
+                </form>
+                <form th:action="@{/near}" method="get">
+                    <button>Click here to search the nearest place</button>
+                </form>
+                <form th:action="@{/add}" method="get">
+                    <button>Click here to add regist</button>
+                </form>
+                <form th:action="@{/userPanel}" method="get">
+                    <button>Click here to go user panel</button>
+                </form>
+
+            </div>
+
+        </div>
     </body>
 </html>
