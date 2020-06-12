@@ -253,7 +253,7 @@ public class RegistControler extends HttpServlet {
 
 
     @PostMapping("/near/get")
-    public String getNearMarker(@RequestParam(name = "lat")double lat,@RequestParam(name = "long")double longitude) throws IOException {
+    public String getNearMarker(@RequestParam(name = "lat")double lat,@RequestParam(name = "long")double longitude) {
         try{
             registoRepository.deleteLastHour();
         }catch (Exception e) {}
@@ -264,6 +264,7 @@ public class RegistControler extends HttpServlet {
     public int compare(Registo r1, Registo r2) {
         return Double.compare(r1.dist, r2.dist);
     }
+
     public String makeNearTable(double lat,double longitude){
         //response.setContentType("text/html");
         Iterable<Registo> all = null;

@@ -83,6 +83,7 @@ table {
 
 /* Style the header links */
 .header a {
+    margin-bottom: 3px;
     font-family: "Roboto", sans-serif;
     text-transform: uppercase;
     float: left;
@@ -128,6 +129,11 @@ table {
 /* Float the link section to the right */
 .header-right {
     float: right;
+}
+
+.header form{
+    margin-bottom: 1px;
+
 }
 
 /* Add media queries for responsiveness - when the screen is 500px wide or less, stack the links on top of each other */

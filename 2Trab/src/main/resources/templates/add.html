@@ -27,7 +27,7 @@
 
 
     <form th:action="@{/locals/add}" method="post">
-        <input type="text" id="localName" name="localName" placeholder="Space name"/>
+        <input type="text" id="localName" name="localName" placeholder="Space name"required/>
         <h3>Please select condiction:</h3>
             <label class="container">Empty
                 <input type="radio" checked="checked" name="type"value="0">
@@ -48,8 +48,8 @@
 
         <br><br>
 
-        <input type="text" id="long" name="long" placeholder="Longitude"/>
-        <input type="text" id="lat" name="lat" placeholder="Latitude"/>
+        <input type="text" id="long" name="long" placeholder="Longitude"required/>
+        <input type="text" id="lat" name="lat" placeholder="Latitude"required/>
         <button>addLocal</button>
 
     </form>

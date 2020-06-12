@@ -25,9 +25,10 @@
 </div>
 <div class="form">
     <div> <form th:action="@{/near/get}" method="post" class="login-form">
-        <input type="text" id="name" name="lat" placeholder="Latitude"/>
-        <input type="text" id="pass" name="long" placeholder="Longitude"/>
+        <input type="text" id='latHtml' name="lat" placeholder="Latitude" required/>
+        <input type="text" id='longHtml' name="long" placeholder="Longitude" required/>
         <button>Get nearest marker</button>
+
     </form> </div>
 
 </div>
@@ -37,6 +38,13 @@
 <script>
 
     var mymap = L.map('mapid').setView([38.713108, -9.137535], 13);
+
+    mymap.on('click', function(ev){
+        var latlng = mymap.mouseEventToLatLng(ev.originalEvent);
+        document.getElementById('latHtml').value=latlng.lat;
+        document.getElementById('longHtml').value=latlng.lng;
+        console.log(latlng.lat + ', ' + latlng.lng);
+    });
 
     L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
         maxZoom: 18,
