@@ -14,11 +14,14 @@ import java.util.List;
     Iterable<Registo> findByuserId(String id);
 
 
+        @Query("Select local_name, latitude, longitude, SQRT( POWER((?1 - latitude),2)+ POWER((?2 - longitude),2) ) as Dist" +
+                "From registo " +
+                "Order by Dist")
+        Iterable<Registo> findClossest(double lat, double longitude) throws Exception;
 
 
 
-
-    @Query(value = "delete from registo where date < now() - interval '1 hour'",
+        @Query(value = "delete from registo where date < now() - interval '1 hour'",
     nativeQuery = true)
     void deleteLastHour() throws Exception;
 

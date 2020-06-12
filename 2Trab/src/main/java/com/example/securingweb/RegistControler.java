@@ -231,6 +231,8 @@ public class RegistControler extends HttpServlet {
 
     }
 
+
+
     @RequestMapping(value="/userPanel/delete",method = RequestMethod.POST)
     public String deleteUser(@RequestParam(name = "idDelete") String id) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -250,5 +252,107 @@ public class RegistControler extends HttpServlet {
     }
 
 
+
+    @PostMapping("/near/get")
+    public String getNearMarker(@RequestParam(name = "lat")double lat,@RequestParam(name = "long")double longitude) throws IOException {
+        try{
+            registoRepository.deleteLastHour();
+        }catch (Exception e) {}
+
+        //meter aqui novz fun que ia apagar o registos atrasados
+        return makeNearTable(lat,longitude);
+    }
+
+    public String makeNearTable(double lat,double longitude){
+        //response.setContentType("text/html");
+        Iterable<Registo> all = null;
+        try {
+            all = registoRepository.findClossest(lat,longitude);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        String lines="";
+        for (Registo registo:all) {
+            lines+= ("<tr>\n" +
+                    "    <td>" + registo.localName + "</td>\n" +
+                    "    <td>" + registo.latitude + "</td>\n" +
+                    "    <td>" + registo.longitude + "</td>\n" +
+                    "    <td>" + registo.emp_ty + "</td>\n" +
+                    "    <td>" + registo.few_people + "</td>\n" +
+                    "    <td>" + registo.fu_ll + "</td>\n" +
+                    "    <td>" + registo.full_w_queue + "</td>\n" +
+                    "  </tr>");
+        }
+
+        //PrintWriter out = response.getWriter();
+        return "<html>\n" +
+                "<head>\n" +
+                "<link rel=\"stylesheet\" type=\"text/css\" href=\"css/table_css.css\">\n"+
+                "<link rel=\"stylesheet\" href=\"https://unpkg.com/leaflet@1.6.0/dist/leaflet.css\"\n" +
+                "   integrity=\"sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==\"\n" +
+                "   crossorigin=\"\"/>\n" +
+                "<script src=\"https://unpkg.com/leaflet@1.6.0/dist/leaflet.js\"\n" +
+                "   integrity=\"sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==\"\n" +
+                "   crossorigin=\"\"></script>"+
+                "</head>\n"  +
+                ("<body>\n")+"<div class=\"header\">\n" +
+                "        <a href=\"/home\" class=\"logo\">CompanyLogo</a>\n" +
+                "        <div class=\"header-right\">\n" +
+                "            <a class=\"active\" href=\"/userPanel\">Control Panel</a>\n" +
+                "            <a class=\"active\">\n" +
+                "            <form th:action=\"@{/logout}\" method=\"post\">\n" +
+                "                    <button>Sign Out</button>\n" +
+                "                </form>\n" +
+                "            </a>\n" +
+                "        </div>\n" +
+                " <div> <form th:action=\"@{/user/add}\" method=\"post\" class=\"login-form\">\n" +
+                "            <input type=\"text\" id=\"name\" name=\"lat\" placeholder=\"Latitude\"/>\n" +
+                "            <input type=\"password\" id=\"pass\" name=\"long\" placeholder=\"Longitude\"/>\n" +
+                "            <button>Get nearest marker</button>\n" +
+                "        </form> </div>"+
+                "    </div>\n"+
+                " <div id=\"mapid\" style=\"width: auto; height: 400px; position: relative; outline: none;\" class=\"leaflet-container leaflet-retina leaflet-fade-anim leaflet-grab leaflet-touch-drag\" tabindex=\"0\"><div class=\"leaflet-pane leaflet-map-pane\" style=\"transform: translate3d(0px, 0px, 0px);\"><div class=\"leaflet-pane leaflet-tile-pane\"><div class=\"leaflet-layer \" style=\"z-index: 1; opacity: 1;\"><div class=\"leaflet-tile-container leaflet-zoom-animated\" style=\"z-index: 18; transform: translate3d(0px, 0px, 0px) scale(1);\"><img alt=\"\" role=\"presentation\" src=\"https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/12/2046/1361?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw\" class=\"leaflet-tile leaflet-tile-loaded\" style=\"width: 512px; height: 512px; transform: translate3d(-200px, -347px, 0px); opacity: 1;\"><img alt=\"\" role=\"presentation\" src=\"https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/12/2047/1361?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw\" class=\"leaflet-tile leaflet-tile-loaded\" style=\"width: 512px; height: 512px; transform: translate3d(312px, -347px, 0px); opacity: 1;\"><img alt=\"\" role=\"presentation\" src=\"https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/12/2046/1362?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw\" class=\"leaflet-tile leaflet-tile-loaded\" style=\"width: 512px; height: 512px; transform: translate3d(-200px, 165px, 0px); opacity: 1;\"><img alt=\"\" role=\"presentation\" src=\"https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/12/2047/1362?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw\" class=\"leaflet-tile leaflet-tile-loaded\" style=\"width: 512px; height: 512px; transform: translate3d(312px, 165px, 0px); opacity: 1;\"></div></div></div><div class=\"leaflet-pane leaflet-shadow-pane\"></div><div class=\"leaflet-pane leaflet-overlay-pane\"></div><div class=\"leaflet-pane leaflet-marker-pane\"></div><div class=\"leaflet-pane leaflet-tooltip-pane\"></div><div class=\"leaflet-pane leaflet-popup-pane\"></div><div class=\"leaflet-proxy leaflet-zoom-animated\" style=\"transform: translate3d(1.04805e+06px, 697379px, 0px) scale(4096);\"></div></div><div class=\"leaflet-control-container\"><div class=\"leaflet-top leaflet-left\"><div class=\"leaflet-control-zoom leaflet-bar leaflet-control\"><a class=\"leaflet-control-zoom-in\" href=\"#\" title=\"Zoom in\" role=\"button\" aria-label=\"Zoom in\">+</a><a class=\"leaflet-control-zoom-out\" href=\"#\" title=\"Zoom out\" role=\"button\" aria-label=\"Zoom out\">−</a></div></div><div class=\"leaflet-top leaflet-right\"></div><div class=\"leaflet-bottom leaflet-left\"></div><div class=\"leaflet-bottom leaflet-right\"><div class=\"leaflet-control-attribution leaflet-control\"><a href=\"https://leafletjs.com\" title=\"A JS library for interactive maps\">Leaflet</a> | Map data © <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a></div></div></div></div>"+
+                "<script>\n" +
+                "\n" +
+                "\tvar mymap = L.map('mapid').setView([38.713108, -9.137535], 13);\n" +
+                addLocalToMap()+
+
+                "\n" +
+                "\t\tfor (var i = 0; i < locals.length; i++) {\n" +
+                "\t\t\tmarker = new L.marker([locals[i][1],locals[i][2]])\n" +
+
+                ".bindPopup(\"<b>\"+locals[i][0]+\"</b><br>Empty: \"+locals[i][3] +\"<br>Few people: \"+locals[i][4]+\"<br>Full: \"+locals[i][5] +\"<br>Full w/Queue: \"+locals[i][6])"+
+                ".\taddTo(mymap);\n" +
+                "\t\t}"+
+                "\n" +
+                "\tL.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {\n" +
+                "\t\tmaxZoom: 18,\n" +
+                "\t\tattribution: 'Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, ' +\n" +
+                "\t\t\t'<a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, ' +\n" +
+                "\t\t\t'Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>',\n" +
+                "\t\tid: 'mapbox/streets-v11',\n" +
+                "\t\ttileSize: 512,\n" +
+                "\t\tzoomOffset: -1\n" +
+                "\t}).addTo(mymap);\n" +
+                "\n" +
+                "</script>"+
+                ("<div class=\"form\">\n")+
+                ("<table>\n" +
+                        "  <tr>\n" +
+                        "    <th>Place</th>\n" +
+                        "    <th>Latitude</th>\n" +
+                        "    <th>Longitude</th>\n" +
+                        "    <th>Empty</th>\n" +
+                        "    <th>With few people</th>\n" +
+                        "    <th>Full</th>\n" +
+                        "    <th>Full with queue</th>\n"+
+                        "  </tr>")+lines+"  </tr>"+
+                "</table>\n" +
+                "\n" + "</div>\n" +
+                "</body>\n" +
+                "</html>";
+
+
+    }
 
 }
