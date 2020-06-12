@@ -16,11 +16,11 @@ public class MvcConfig implements WebMvcConfigurer {
 		registry.addViewController("/css/table_css.css").setViewName("css/table_css.css");
 		//registry.addViewController("/locals/add").setViewName("home");
 		registry.addViewController("/add").setViewName("add");
-		registry.addViewController("/userPanel").setViewName("userPanel");
 		registry.addViewController("/delete").setViewName("delete");
 		registry.addViewController("/css/login_css.css").setViewName("css/login_css.css");
 		registry.addViewController("/css/add_css.css").setViewName("css/add_css.css");
 		registry.addViewController("/css/home_css.css").setViewName("css/home_css.css");
+		registry.addViewController("/css/delete_css.css").setViewName("css/delete_css.css");
 		registry.addViewController("/adduser").setViewName("adduser");
 		registry.addViewController("/near").setViewName("near");
 		registry.addViewController("/near/get").setViewName("near/get");

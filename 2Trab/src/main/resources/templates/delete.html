@@ -3,16 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <title>DeleteReg</title>
+    <link rel="stylesheet" type="text/css" href="/css/delete_css.css">
 </head>
 <body>
-<h1 th:inline="text">Delete a reg</h1>
-<h3 th:inline="text">User: [[${#httpServletRequest.remoteUser}]]!</h3>
+<div class="header">
+    <a href="/home" class="logo">CompanyLogo</a>
+    <div class="header-right">
+        <a class="active" href="/userPanel">Control Panel</a>
+        <a class="active">
+            <form th:action="@{/logout}" method="post">
+                <button>Sign Out</button>
+            </form>
+        </a>
+    </div>
+</div>
+<div class="form">
 
+    <h1 th:inline="text">Delete a reg</h1>
+    <h3 th:inline="text">User: [[${#httpServletRequest.remoteUser}]]!</h3>
+    <form th:action="@{/userPanel/delete}" method="post">
+        <div><label> Regist ID: <input id="localName" type="text" name="idDelete"required/> </label></div>
+        <button>Delete regist</button>
+    </form>
 
-<form th:action="@{/userPanel/delete}" method="post">
-    <div><label> Regist ID: <input id="localName" type="text" name="idDelete"required/> </label></div>
-    <div><input type="submit" value="Delete regist"/></div>
+</div>
 
-</form>
+<iframe src="/userReg" style="
+    width: -webkit-fill-available;
+    height: -webkit-fill-available;
+    margin-top: 10px;
+    border-radius: 10px;
+    background: white;"></iframe>
 </body>
 </html>

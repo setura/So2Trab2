@@ -194,7 +194,7 @@ public class RegistControler extends HttpServlet {
                     "  </tr>");
         }
         //PrintWriter out = response.getWriter();
-        return "<html>\n" +
+        return "<html lang=\"en\" xmlns:th=\"http://www.w3.org/1999/xhtml\">\n" +
                 "<head>\n" +
                 "<style>\n" +
                 "table {\n" +
@@ -283,6 +283,10 @@ public class RegistControler extends HttpServlet {
         }
 
             String lines="";
+        if(sorted.size()>0)
+        {
+            setView=changeSetView(sorted.get(0).latitude,sorted.get(0).longitude);
+        }
         for (Registo registo:sorted) {
             lines+= ("<tr>\n" +
                     "    <td>" + registo.localName + "</td>\n" +
