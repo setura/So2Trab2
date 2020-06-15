@@ -38,12 +38,16 @@
 <script>
 
     var mymap = L.map('mapid').setView([38.713108, -9.137535], 13);
+    var mark = new L.marker([0,0]).addTo(mymap);
 
     mymap.on('click', function(ev){
+        mymap.removeLayer(mark);
         var latlng = mymap.mouseEventToLatLng(ev.originalEvent);
+        mark = new L.marker(latlng).addTo(mymap);
         document.getElementById('latHtml').value=latlng.lat;
         document.getElementById('longHtml').value=latlng.lng;
         console.log(latlng.lat + ', ' + latlng.lng);
+
     });
 
     L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
