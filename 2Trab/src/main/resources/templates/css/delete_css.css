@@ -247,12 +247,15 @@ table {
 .container .info span .fa {
     color: #EF3B3A;
 }
+html{
+    min-height: 100%;
+    position:relative;
+}
 body {
+    height: 99%;
+    width: 99%;
     background: #76b852; /* fallback for old browsers */
-    background: -webkit-linear-gradient(right, #76b852, #8DC26F);
-    background: -moz-linear-gradient(right, #76b852, #8DC26F);
-    background: -o-linear-gradient(right, #76b852, #8DC26F);
-    background: linear-gradient(to left, #76b852, #8DC26F);
+    background: linear-gradient(335deg, rgba(0,106,255,1) 5%, rgba(122,232,56,1) 46%);
     font-family: "Roboto", sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
