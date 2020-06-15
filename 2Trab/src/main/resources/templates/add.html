@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>AddRegist</title>
+    <title>AddRecord</title>
     <link rel="stylesheet" type="text/css" href="css/add_css.css">
 </head>
 <body>
@@ -22,7 +22,7 @@
 
 
     <div class="form">
-    <h1 th:inline="text">Regist Local Condiction</h1>
+    <h1 th:inline="text">Record Local Condiction</h1>
     <h3 th:inline="text">User: [[${#httpServletRequest.remoteUser}]]!</h3>
 
 
@@ -48,8 +48,9 @@
 
         <br><br>
 
-        <input type="text" id="long" name="long" placeholder="Longitude"required/>
-        <input type="text" id="lat" name="lat" placeholder="Latitude"required/>
+
+        <input type="text" id="lat" pattern="^[+-]?((\d+(\.\d*)?)|(\.\d+))" name="lat" placeholder="Latitude"required/>
+        <input type="text" id="long" pattern="^[+-]?((\d+(\.\d*)?)|(\.\d+))" name="long" placeholder="Longitude"required/>
         <button>addLocal</button>
 
     </form>

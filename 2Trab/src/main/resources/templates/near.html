@@ -18,8 +18,8 @@
 </div>
 <div class="form">
     <div> <form th:action="@{/near/get}" method="post" class="login-form">
-        <input type="text" id='latHtml' name="lat" placeholder="Latitude" required/>
-        <input type="text" id='longHtml' name="long" placeholder="Longitude" required/>
+        <input type="text" id='latHtml' pattern="^[+-]?((\d+(\.\d*)?)|(\.\d+))" name="lat" placeholder="Latitude" required/>
+        <input type="text" id='longHtml' pattern="^[+-]?((\d+(\.\d*)?)|(\.\d+))" name="long" placeholder="Longitude" required/>
         <button>Get nearest marker</button>
 
     </form> </div>

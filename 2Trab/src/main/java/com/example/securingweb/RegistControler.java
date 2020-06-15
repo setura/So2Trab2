@@ -1,20 +1,15 @@
 package com.example.securingweb;
 
-import org.hibernate.engine.jdbc.spi.SqlExceptionHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.lang.reflect.Array;
 import java.util.*;
-import java.util.logging.Logger;
 
 
 @RestController
@@ -22,6 +17,7 @@ public class RegistControler extends HttpServlet {
 
     private RegistoRepository registoRepository;
     private UtilizadorRepository utilizadorRepository;
+    public static final double R = 6372.8; // In kilometers
 
     @Autowired
     public RegistControler(RegistoRepository registoRepository,UtilizadorRepository utilizadorRepository){
@@ -30,14 +26,14 @@ public class RegistControler extends HttpServlet {
     }
 
     @PostMapping("/user/add")
-    public String addUser(@RequestParam(name = "name") String name,
-                          @RequestParam(name = "pass") String password)
+    public RedirectView addUser(@RequestParam(name = "name") String name,
+                                @RequestParam(name = "pass") String password)
     {
        if( !utilizadorRepository.existsByUserName(name)){
             utilizadorRepository.save(new Utilizador(name,new BCryptPasswordEncoder().encode(password),"RULE_USER"));
-            return "";
+           return new RedirectView("/login");
         }
-       else return "ERROR";
+        return new RedirectView("/adduser");
 
     }
 
@@ -151,10 +147,10 @@ public class RegistControler extends HttpServlet {
     }
 
     @RequestMapping(value="/locals/add",method = RequestMethod.POST)
-    public String addLocal(@RequestParam(name = "localName") String name,
-                         @RequestParam(name = "type") String value,
-                        @RequestParam(name = "long") String lon,
-                        @RequestParam(name = "lat") String lat)
+    public RedirectView addLocal(@RequestParam(name = "localName") String name,
+                                 @RequestParam(name = "type") String value,
+                                 @RequestParam(name = "long") String lon,
+                                 @RequestParam(name = "lat") String lat)
     {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -165,7 +161,7 @@ public class RegistControler extends HttpServlet {
         Double latitude=Double.parseDouble(lat);
         registoRepository.save(new Registo(currentPrincipalName, latitude, longitude, name, typeValue));
 
-        return "<a href=\"javascript:history.go(-1)\">Go Back</a>";
+        return new RedirectView("/home");
 
     }
 
@@ -230,7 +226,7 @@ public class RegistControler extends HttpServlet {
 
 
     @RequestMapping(value="/userPanel/delete",method = RequestMethod.POST)
-    public String deleteUser(@RequestParam(name = "idDelete") String id) {
+    public RedirectView deleteUser(@RequestParam(name = "idDelete") String id) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
         long idParsed=Long.parseLong(id);
@@ -239,10 +235,10 @@ public class RegistControler extends HttpServlet {
             if (regist.getRegId() == idParsed)
             {
                 registoRepository.deleteById(idParsed);
-                return "<a href=\"javascript:history.back()\">Go Back</a>";
+                return new RedirectView("/delete");
             }
         }
-        return "<script>window.alert('You can only erase your regists!') </script>";
+        return new RedirectView("/home");
 
 
     }
@@ -270,6 +266,7 @@ public class RegistControler extends HttpServlet {
         try {
             all = registoRepository.findClossest(lat,longitude);
             for (Registo regs:all) {
+                regs.dist=haversine(lat, longitude, regs.latitude, regs.longitude);
                 sorted.add(regs);
                 
             }
@@ -347,7 +344,7 @@ public class RegistControler extends HttpServlet {
                         "    <th>With few people</th>\n" +
                         "    <th>Full</th>\n" +
                         "    <th>Full with queue</th>\n"+
-                        "    <th>Dist</th>\n"+
+                        "    <th>Dist. in kilometers</th>\n"+
                         "  </tr>")+lines+"  </tr>"+
                 "</table>\n" +
                 "\n" + "</div>\n" +
@@ -355,6 +352,18 @@ public class RegistControler extends HttpServlet {
                 "</html>";
 
 
+    }
+    //Função da autoria de RosettaCode https://rosettacode.org/wiki/Haversine_formula#Java
+    //Calcular a distancia dos pontos
+    public static double haversine(double lat1, double lon1, double lat2, double lon2) {
+        double dLat = Math.toRadians(lat2 - lat1);
+        double dLon = Math.toRadians(lon2 - lon1);
+        lat1 = Math.toRadians(lat1);
+        lat2 = Math.toRadians(lat2);
+
+        double a = Math.pow(Math.sin(dLat / 2),2) + Math.pow(Math.sin(dLon / 2),2) * Math.cos(lat1) * Math.cos(lat2);
+        double c = 2 * Math.asin(Math.sqrt(a));
+        return R * c;
     }
 
     private String changeSetView(double lat,double longi) {

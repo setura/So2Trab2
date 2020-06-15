@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>DeleteReg</title>
+    <title>DeleteRecord</title>
     <link rel="stylesheet" type="text/css" href="/css/delete_css.css">
 </head>
 <body>
@@ -19,11 +19,11 @@
 </div>
 <div class="form">
 
-    <h1 th:inline="text">Delete a regist</h1>
+    <h1 th:inline="text">Delete a Record</h1>
     <h3 th:inline="text">User: [[${#httpServletRequest.remoteUser}]]!</h3>
     <form th:action="@{/userPanel/delete}" method="post">
-        <div><label> Regist ID: <input id="localName" type="text" name="idDelete"required/> </label></div>
-        <button>Delete regist</button>
+        <div><label> Record ID: <input id="localName" type="text" pattern="\d*" name="idDelete"required/> </label></div>
+        <button>Delete Record</button>
     </form>
 
 </div>
