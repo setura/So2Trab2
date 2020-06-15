@@ -79,6 +79,7 @@ table {
 /*_____________________header________________________*/
 /* Style the header with a grey background and some padding */
 .header {
+    border-radius: 10px;
     overflow: hidden;
     background: #FFFFFF;
     margin: 0 auto 50px;

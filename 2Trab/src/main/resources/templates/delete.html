@@ -7,19 +7,19 @@
 </head>
 <body>
 <div class="header">
-    <a href="/home" class="logo">CompanyLogo</a>
+    <a href="/home" class="logo">PlaceStatus</a>
     <div class="header-right">
-        <a class="active" href="/userPanel">Control Panel</a>
+        <a class="active" href="/delete">Control Panel</a>
         <a class="active">
             <form th:action="@{/logout}" method="post">
-                <button>Sign Out</button>
+                <button>Sign In/Out</button>
             </form>
         </a>
     </div>
 </div>
 <div class="form">
 
-    <h1 th:inline="text">Delete a reg</h1>
+    <h1 th:inline="text">Delete a regist</h1>
     <h3 th:inline="text">User: [[${#httpServletRequest.remoteUser}]]!</h3>
     <form th:action="@{/userPanel/delete}" method="post">
         <div><label> Regist ID: <input id="localName" type="text" name="idDelete"required/> </label></div>
