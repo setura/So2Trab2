@@ -238,7 +238,7 @@ body {
     height: 99%;
     width: 99%;
     background: #76b852; /* fallback for old browsers */
-    background: linear-gradient(335deg, rgba(0,106,255,1) 5%, rgba(122,232,56,1) 46%);
+    background: linear-gradient(140deg, rgba(67,189,75,1) 5%, rgba(45,218,106,1) 20%, rgba(19,212,128,1) 38%, rgba(21,198,119,1) 58%, rgba(11,193,139,1) 73%, rgba(4,176,139,1) 87%);
     font-family: "Roboto", sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
