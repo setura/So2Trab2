@@ -3,12 +3,13 @@
     <head>
         <title>Home</title>
         <link rel="stylesheet" type="text/css" href="/css/home_css.css">
+        <link rel="icon" href="/templates/imgs/icon.png" th:src="@{imgs/icon.png}">
 
     </head>
     <body>
 
         <div class="header">
-            <a href="/home" class="logo"> <img border="0" src="../templates/imgs/logo.png" width="100" height="100">PlaceStatus</a>
+            <a href="/home" class="logo"> <img  src="../templates/imgs/logo.png" width="100" height="100" th:src="@{imgs/logo.png}">PlaceStatus</a>
             <div class="header-right">
                 <a class="active" href="/delete">Control Panel</a>
                 <a class="active">

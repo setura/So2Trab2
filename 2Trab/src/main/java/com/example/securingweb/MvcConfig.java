@@ -24,6 +24,8 @@ public class MvcConfig implements WebMvcConfigurer {
 		registry.addViewController("/near").setViewName("near");
 		registry.addViewController("/near/get").setViewName("near/get");
 		registry.addViewController("/imgs/logo.png").setViewName("imgs/logo.png");
+		registry.addViewController("../templates/imgs/logo.png").setViewName("templates/imgs/logo.png");
+
 
 	}
 
