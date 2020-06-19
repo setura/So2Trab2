@@ -31,29 +31,13 @@ public class SecuringWebApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) {
-		//ten = parser.parse("10:00");
-
-
 		System.out.println("StartApplication...");
-
-		// no segundo run, podemos comentar estas 3 linhas
-	 	//userRepository.save(new Utilizador("admin","$2a$10$cw0.dazD6XsAJmAshhAW4uEUDMIizMkkOuiaC7otl4TdTsTiTQWzO","RULE_ADMIN"));
-		//userRepository.save(new Utilizador("user","$2a$10$cw0.dazD6XsAJmAshhAW4uEUDMIizMkkOuiaC7otl4TdTsTiTQWzO" , "ROLE_USER"));
-		//regRepository.save(new Registo(1, 2, 45.2,23.4, "PizzaHut"));
-
-
-
-
-		System.out.println("\nfindAll()");
-
-		System.out.println(regRepository.findBylocalName("PizzaHut"));
-
-		/*System.out.println("\nfindById(1L)");
-		repository.findById(1l).ifPresent(x -> System.out.println(x));
-
-		System.out.println("\nfindByName('Node')");
-		repository.findByName("Node").forEach(x -> System.out.println(x));*/
-
+		if (userRepository.existsByUserName("admin"))
+			System.out.println("Admin active!!!");
+	 	else{
+			userRepository.save(new Utilizador("admin","$2a$10$o1KV6W18v5HCXJInI4E3cO/85gjmL5Wv/MMzRzKTB6Ebxu/Od1gF6","RULE_ADMIN"));
+			System.out.println("New Admin active!!!");
+	 	}
 	}
 	public RegistoRepository getRegRepository() {
 		return regRepository;
