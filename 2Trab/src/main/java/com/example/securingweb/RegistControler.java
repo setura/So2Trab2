@@ -243,6 +243,12 @@ public class RegistControler extends HttpServlet {
 
     }
 
+    /*@GetMapping("/error")
+    public RedirectView errorPage()
+    {
+        return new RedirectView("/error");
+    }*/
+
 
 
     @PostMapping("/near/get")
