@@ -54,6 +54,7 @@
 
         <br><br>
 
+        <button onclick="getLocation()">Get your exact location.</button>
 
         <input type="text" id="lat" pattern="^[+-]?((\d+(\.\d*)?)|(\.\d+))" name="lat" placeholder="Latitude"required/>
         <input type="text" id="long" pattern="^[+-]?((\d+(\.\d*)?)|(\.\d+))" name="long" placeholder="Longitude"required/>
@@ -86,6 +87,21 @@
             tileSize: 512,
             zoomOffset: -1
         }).addTo(mymap);
+
+        var x = document.getElementById("demo");
+
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+            } else {
+                x.innerHTML = window.alert("Geolocation is not supported by this browser.");
+            }
+        }
+
+        function showPosition(position) {
+            document.getElementById('lat').value=position.coords.latitude;
+            document.getElementById('long').value=lvalue=position.coords.longitude;
+        }
 
     </script>
 
