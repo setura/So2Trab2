@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <meta charset="UTF-8">
     <title>Add Record</title>
@@ -19,9 +19,16 @@
         <div class="header-right">
             <a class="active" href="/delete">Control Panel</a>
             <a class="active">
-            <form th:action="@{/logout}" method="post">
-                    <button>Sign In/Out</button>
-                </form>
+                <div sec:authorize = "isAuthenticated()">
+                    <form th:action="@{/logout}" method="post">
+                        <button>Sign Out</button>
+                    </form>
+                </div>
+                <div sec:authorize = "isAnonymous()">
+                    <form th:action="@{/login}" method="get">
+                        <button>Sign In</button>
+                    </form>
+                </div>
             </a>
         </div>
     </div>

@@ -25,11 +25,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http
 			.authorizeRequests()
-				.antMatchers("/", "/home","/locals","/css/**","/imgs/logo.png", "/adduser","/error", "/user/add","/near","/near/get").permitAll()
+				.antMatchers("/", "/home","/locals","/css/**","/images/**", "/adduser","/error", "/user/add","/near","/near/get").permitAll()
 				.anyRequest().fullyAuthenticated()
 				.and()
 			.formLogin()
 				.loginPage("/login")
+				.defaultSuccessUrl("/",true)
 				.permitAll()
 				.and()
 			.logout()
@@ -52,17 +53,4 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.authoritiesByUsernameQuery("select user_name, role from utilizador where user_name=?").passwordEncoder(passwordencoder());
 
 	}
-	/*@Bean
-	@Override
-	public UserDetailsService userDetailsService() {
-		UserDetails user =
-			 User.withDefaultPasswordEncoder()
-				.username("user")
-				.password("password")
-				.roles("USER")
-				.build();
-		System.out.println("OLAAA"+ user);
-
-		return new InMemoryUserDetailsManager(user);
-	}*/
 }

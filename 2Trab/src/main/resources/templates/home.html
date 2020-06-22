@@ -1,18 +1,26 @@
 <!DOCTYPE html>
-<html> <head>
+<html xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3"> <head>
         <title>Home</title>
         <link rel="stylesheet" type="text/css" href="/css/home_css.css">
     </head>
     <body>
 
         <div class="header">
-            <a href="/home" class="logo"> <img src="../static/imgs/logo.png" width="100" height="100" th:src="@{../static/imgs/logo.png}">PlaceStatus</a>
-            <div class="header-right">
+            <a href="/home" class="logo"> PlaceStatus</a>
+            <div  class="header-right">
                 <a class="active" href="/delete">Control Panel</a>
                 <a class="active">
-                    <form th:action="@{/logout}" method="post">
-                        <button>Sign In/Out</button>
-                    </form>
+                    <div sec:authorize = "isAuthenticated()">
+                        <form th:action="@{/logout}" method="post">
+                            <button>Sign Out</button>
+                        </form>
+                    </div>
+                    <div sec:authorize = "isAnonymous()">
+                        <form th:action="@{/login}" method="get">
+                            <button>Sign In</button>
+                        </form>
+                    </div>
+
                 </a>
             </div>
         </div>
