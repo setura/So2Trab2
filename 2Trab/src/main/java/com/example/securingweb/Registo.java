@@ -4,69 +4,63 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Entity
 public class Registo {
 
 
-
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     long regId;
     String userId;
-    long emp_ty, few_people,fu_ll,full_w_queue;
+    long emp_ty, few_people, fu_ll, full_w_queue;
     double dist;
-
-
     double latitude;
     double longitude;
     String localName;
     Date date;
     //SimpleDateFormat parser = new SimpleDateFormat("HH:mm");
 
-    public Registo(){}
+    public Registo() {
+    }
 
-    public Registo( String userId, double latitude, double longitude, String localName,int type) {
+    public Registo(String userId, double latitude, double longitude, String localName, int type) {
         this.userId = userId;
         this.latitude = latitude;
         this.longitude = longitude;
         this.localName = localName;
         this.date = new Date();
-        switch (type)
-        {
+        switch (type) {
             case 0:
-                this.emp_ty=1;
-                this.few_people=0;
-                this.fu_ll=0;
-                this.full_w_queue=0;
+                this.emp_ty = 1;
+                this.few_people = 0;
+                this.fu_ll = 0;
+                this.full_w_queue = 0;
                 break;
             case 1:
-                this.emp_ty=0;
-                this.few_people=1;
-                this.fu_ll=0;
-                this.full_w_queue=0;
+                this.emp_ty = 0;
+                this.few_people = 1;
+                this.fu_ll = 0;
+                this.full_w_queue = 0;
                 break;
             case 2:
-                this.emp_ty=0;
-                this.few_people=0;
-                this.fu_ll=1;
-                this.full_w_queue=0;
+                this.emp_ty = 0;
+                this.few_people = 0;
+                this.fu_ll = 1;
+                this.full_w_queue = 0;
                 break;
             case 3:
-                this.emp_ty=0;
-                this.few_people=0;
-                this.fu_ll=0;
-                this.full_w_queue=1;
+                this.emp_ty = 0;
+                this.few_people = 0;
+                this.fu_ll = 0;
+                this.full_w_queue = 1;
                 break;
         }
     }
 
 
-    public Registo(String localName,double latitude, double longitude,long emp_ty, long few_people, long fu_ll, long full_w_queue) {
+    public Registo(String localName, double latitude, double longitude, long emp_ty, long few_people, long fu_ll, long full_w_queue) {
         this.emp_ty = emp_ty;
         this.few_people = few_people;
         this.fu_ll = fu_ll;
@@ -75,11 +69,12 @@ public class Registo {
         this.longitude = longitude;
         this.localName = localName;
     }
-    public Registo(String localName,double latitude, double longitude,double dist) {
+
+    public Registo(String localName, double latitude, double longitude, double dist) {
         this.latitude = latitude;
         this.longitude = longitude;
         this.localName = localName;
-        this.dist=dist;
+        this.dist = dist;
     }
 
     /*public Registo(String name,double longitude,double latitude,int type,long count)
@@ -115,20 +110,19 @@ public class Registo {
         return userId;
     }
 
-    public String decodeStituation()
-    {
+    public String decodeStituation() {
 
-        if(this.emp_ty==1)
+        if (this.emp_ty == 1)
             return "Empty";
 
-        if(this.few_people==1)
-                return "Only a few people";
+        if (this.few_people == 1)
+            return "Only a few people";
 
-        if(this.fu_ll==1)
-                return "Full";
+        if (this.fu_ll == 1)
+            return "Full";
 
-        if(this.full_w_queue==1)
-                return "Full with queue";
+        if (this.full_w_queue == 1)
+            return "Full with queue";
 
         return "Unknown Situation";
 

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+>
 <head>
     <title>Login </title>
     <link rel="stylesheet" type="text/css" href="css/login_css.css">
@@ -14,8 +14,8 @@
         <div th:if="${param.logout}">
         </div>
         <form th:action="@{/login}" method="post" class="login-form">
-            <input type="text" id="username" name="username" placeholder="username"required/>
-            <input type="password" id="password" name="password" placeholder="password"required/>
+            <input type="text" id="username" name="username" placeholder="username" required/>
+            <input type="password" id="password" name="password" placeholder="password" required/>
             <button>login</button>
             <p class="message">Not registered? <a href="/adduser">Create an account</a></p>
         </form>
