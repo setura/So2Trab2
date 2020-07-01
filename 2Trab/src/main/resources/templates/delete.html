@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <meta charset="UTF-8">
     <title>Control Panel</title>
@@ -11,12 +12,12 @@
     <div class="header-right">
         <a class="active" href="/delete">Control Panel</a>
         <a class="active">
-            <div sec:authorize = "isAuthenticated()">
+            <div sec:authorize="isAuthenticated()">
                 <form th:action="@{/logout}" method="post">
                     <button>Sign Out</button>
                 </form>
             </div>
-            <div sec:authorize = "isAnonymous()">
+            <div sec:authorize="isAnonymous()">
                 <form th:action="@{/login}" method="get">
                     <button>Sign In</button>
                 </form>
@@ -29,7 +30,8 @@
     <h1 th:inline="text">Delete a Record</h1>
     <h3 th:inline="text">User: [[${#httpServletRequest.remoteUser}]]!</h3>
     <form th:action="@{/userPanel/delete}" method="post">
-        <div><label> Record ID: <input id="localName" type="text" pattern="\d*" name="idDelete"required/> </label></div>
+        <div><label> Record ID: <input id="localName" type="text" pattern="\d*" name="idDelete" required/> </label>
+        </div>
         <button>Delete Record</button>
     </form>
 

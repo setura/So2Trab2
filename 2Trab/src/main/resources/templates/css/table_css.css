@@ -13,9 +13,10 @@
     background: #FFFFFF;
     margin: 0 auto;
     padding: 1px;
-    text-align:match-parent;
+    text-align: match-parent;
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }
+
 table {
     padding: 10px;
     margin: 0 auto;
@@ -34,7 +35,10 @@ table {
 
 }
 
-#mapid { height: 180px; }
+#mapid {
+    height: 180px;
+}
+
 .form input {
     border-radius: 10px;
     font-family: "Roboto", sans-serif;
@@ -42,11 +46,12 @@ table {
     background: #f2f2f2;
     width: 100%;
     border: 0;
-    margin: 0 0 15px;
+    margin: 5px 0 5px;
     padding: 15px;
     box-sizing: border-box;
     font-size: 14px;
 }
+
 .form button {
     border-radius: 10px;
     font-family: "Roboto", sans-serif;
@@ -62,18 +67,22 @@ table {
     transition: all 0.3 ease;
     cursor: pointer;
 }
-.form button:hover,.form button:active,.form button:focus {
+
+.form button:hover, .form button:active, .form button:focus {
     background: #43A047;
 }
+
 .form .message {
     margin: 15px 0 0;
     color: #b3b3b3;
     font-size: 12px;
 }
+
 .form .message a {
     color: #4CAF50;
     text-decoration: none;
 }
+
 /*_____________________header________________________*/
 /* Style the header with a grey background and some padding */
 .header {
@@ -100,6 +109,7 @@ table {
     line-height: 25px;
     border-radius: 4px;
 }
+
 .header button {
     font-family: "Roboto", sans-serif;
     text-transform: uppercase;
@@ -136,7 +146,7 @@ table {
     float: right;
 }
 
-.header form{
+.header form {
     margin-bottom: 1px;
 
 }
@@ -148,11 +158,11 @@ table {
         display: block;
         text-align: left;
     }
+
     .header-right {
         float: none;
     }
 }
-
 
 
 /*_______________________radioBotton_______________________*/
@@ -223,10 +233,12 @@ table {
     display: block;
     clear: both;
 }
+
 .container .info {
     margin: 50px auto;
     text-align: center;
 }
+
 .container .info h1 {
     margin: 0 0 15px;
     padding: 0;
@@ -234,26 +246,31 @@ table {
     font-weight: 300;
     color: #1a1a1a;
 }
+
 .container .info span {
     color: #4d4d4d;
     font-size: 12px;
 }
+
 .container .info span a {
     color: #000000;
     text-decoration: none;
 }
+
 .container .info span .fa {
     color: #EF3B3A;
 }
-html{
+
+html {
     min-height: 100%;
-    position:relative;
+    position: relative;
 }
+
 body {
     height: 99%;
     width: 99%;
     background: #76b852; /* fallback for old browsers */
-    background: linear-gradient(140deg, rgba(67,189,75,1) 5%, rgba(45,218,106,1) 20%, rgba(19,212,128,1) 38%, rgba(21,198,119,1) 58%, rgba(11,193,139,1) 73%, rgba(4,176,139,1) 87%);
+    background: linear-gradient(140deg, rgba(67, 189, 75, 1) 5%, rgba(45, 218, 106, 1) 20%, rgba(19, 212, 128, 1) 38%, rgba(21, 198, 119, 1) 58%, rgba(11, 193, 139, 1) 73%, rgba(4, 176, 139, 1) 87%);
     font-family: "Roboto", sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;

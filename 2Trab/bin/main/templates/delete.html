@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <title>Control Panel</title>
+    <link rel="stylesheet" type="text/css" href="/css/delete_css.css">
+</head>
+<body>
+<div class="header">
+    <a href="/home" class="logo">PlaceStatus</a>
+    <div class="header-right">
+        <a class="active" href="/delete">Control Panel</a>
+        <a class="active">
+            <div sec:authorize="isAuthenticated()">
+                <form th:action="@{/logout}" method="post">
+                    <button>Sign Out</button>
+                </form>
+            </div>
+            <div sec:authorize="isAnonymous()">
+                <form th:action="@{/login}" method="get">
+                    <button>Sign In</button>
+                </form>
+            </div>
+        </a>
+    </div>
+</div>
+<div class="form">
+
+    <h1 th:inline="text">Delete a Record</h1>
+    <h3 th:inline="text">User: [[${#httpServletRequest.remoteUser}]]!</h3>
+    <form th:action="@{/userPanel/delete}" method="post">
+        <div><label> Record ID: <input id="localName" type="text" pattern="\d*" name="idDelete" required/> </label>
+        </div>
+        <button>Delete Record</button>
+    </form>
+
+</div>
+
+<iframe src="/userReg" style="
+    width: -webkit-fill-available;
+    height: -webkit-fill-available;
+    margin-top: 10px;
+    border-radius: 10px;
+    background: white;"></iframe>
+</body>
+</html>

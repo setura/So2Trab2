@@ -14,38 +14,38 @@ import java.util.Date;
 @SpringBootApplication
 public class SecuringWebApplication implements CommandLineRunner {
 
-	SimpleDateFormat parser = new SimpleDateFormat("HH:mm");
-	Duration time;
+    SimpleDateFormat parser = new SimpleDateFormat("HH:mm");
+    Duration time;
 
 
+    @Autowired
+    public RegistoRepository regRepository;
+    @Autowired
+    public UtilizadorRepository userRepository;
 
-	@Autowired
-	public RegistoRepository regRepository;
-	@Autowired
-	public UtilizadorRepository userRepository;
 
+    public static void main(String[] args) throws Throwable {
+        SpringApplication.run(SecuringWebApplication.class, args);
+    }
 
-	public static void main(String[] args) throws Throwable {
-		SpringApplication.run(SecuringWebApplication.class, args);
-	}
+    @Override
+    public void run(String... args) {
+        System.out.println("StartApplication...");
+        if (userRepository.existsByUserName("admin"))
+            System.out.println("Admin active!!!");
+        else {
+            userRepository.save(new Utilizador("admin", "$2a$10$o1KV6W18v5HCXJInI4E3cO/85gjmL5Wv/MMzRzKTB6Ebxu/Od1gF6", "RULE_ADMIN"));
+            System.out.println("New Admin active!!!");
+        }
+    }
 
-	@Override
-	public void run(String... args) {
-		System.out.println("StartApplication...");
-		if (userRepository.existsByUserName("admin"))
-			System.out.println("Admin active!!!");
-	 	else{
-			userRepository.save(new Utilizador("admin","$2a$10$o1KV6W18v5HCXJInI4E3cO/85gjmL5Wv/MMzRzKTB6Ebxu/Od1gF6","RULE_ADMIN"));
-			System.out.println("New Admin active!!!");
-	 	}
-	}
-	public RegistoRepository getRegRepository() {
-		return regRepository;
-	}
+    public RegistoRepository getRegRepository() {
+        return regRepository;
+    }
 
-	public UtilizadorRepository getUserRepository() {
-		return userRepository;
-	}
+    public UtilizadorRepository getUserRepository() {
+        return userRepository;
+    }
 
 
 }

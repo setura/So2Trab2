@@ -1,33 +1,29 @@
 package com.example.securingweb;
 
-import org.hibernate.engine.jdbc.spi.SqlExceptionHelper;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
-import java.util.Collection;
 import java.util.List;
 
-    public interface RegistoRepository extends CrudRepository<Registo, Long> {
+public interface RegistoRepository extends CrudRepository<Registo, Long> {
 
     Registo findBylocalName(String name);
 
     Iterable<Registo> findByuserId(String id);
 
 
+    @Query(
+            value = "SELECT DISTINCT new com.example.securingweb.Registo(r.localName, r.latitude,r.longitude,SQRT( POWER(?1 -latitude,2)+ POWER((?2-longitude),2)))\n" +
+                    "From Registo r\n" +
+                    "GROUP BY r.localName, r.longitude , r.latitude\n" +
+                    "ORDER BY r.localName, r.longitude , r.latitude\n",
 
-        @Query(
-                value = "SELECT DISTINCT new com.example.securingweb.Registo(r.localName, r.latitude,r.longitude,SQRT( POWER(?1 -latitude,2)+ POWER((?2-longitude),2)))\n" +
-                "From Registo r\n"+
-                "GROUP BY r.localName, r.longitude , r.latitude\n" +
-                "ORDER BY r.localName, r.longitude , r.latitude\n",
-
-                nativeQuery = false)
-        Iterable<Registo> findClossest(double lat, double longitude) throws Exception;
-
+            nativeQuery = false)
+    Iterable<Registo> findClossest(double lat, double longitude) throws Exception;
 
 
-        @Query(value = "delete from registo where date < now() - interval '1 hour'",
-    nativeQuery = true)
+    @Query(value = "delete from registo where date < now() - interval '1 hour'",
+            nativeQuery = true)
     void deleteLastHour() throws Exception;
 
 
@@ -37,9 +33,8 @@ import java.util.List;
                     "GROUP BY r.localName, r.longitude , r.latitude \n" +
                     "ORDER BY r.localName, r.longitude, r.latitude",
             nativeQuery = false
-            )
-
-            List<Registo> getCompleteTable();
+    )
+    List<Registo> getCompleteTable();
 
         /*@Query(
                 value = "SELECT DISTINCT new com.example.securingweb.Registo(r.localName, r.longitude, r.latitude,r.regType, Count( r.regType )) " +
@@ -56,4 +51,4 @@ import java.util.List;
         Iterable<Registo> findDistinctByRegIdAndLocalNameAndLongitudeAndLatitudeAndRegTypeAndCountAndRegType
                 (String local,int longitude,int latitude,int type,long cont);
 */
-    }
+}

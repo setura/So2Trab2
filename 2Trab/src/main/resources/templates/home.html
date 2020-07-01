@@ -1,48 +1,49 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3"> <head>
-        <title>Home</title>
-        <link rel="stylesheet" type="text/css" href="/css/home_css.css">
-    </head>
-    <body>
+<html xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <title>Home</title>
+    <link rel="stylesheet" type="text/css" href="/css/home_css.css">
+</head>
+<body>
 
-        <div class="header">
-            <a href="/home" class="logo"> PlaceStatus</a>
-            <div  class="header-right">
-                <a class="active" href="/delete">Control Panel</a>
-                <a class="active">
-                    <div sec:authorize = "isAuthenticated()">
-                        <form th:action="@{/logout}" method="post">
-                            <button>Sign Out</button>
-                        </form>
-                    </div>
-                    <div sec:authorize = "isAnonymous()">
-                        <form th:action="@{/login}" method="get">
-                            <button>Sign In</button>
-                        </form>
-                    </div>
-
-                </a>
+<div class="header">
+    <a href="/home" class="logo"> PlaceStatus</a>
+    <div class="header-right">
+        <a class="active" href="/delete">Control Panel</a>
+        <a class="active">
+            <div sec:authorize="isAuthenticated()">
+                <form th:action="@{/logout}" method="post">
+                    <button>Sign Out</button>
+                </form>
             </div>
-        </div>
-        <div class="form">
-        <h1>Menu</h1>
-
-            <div class="botoes">
-                <form th:action="@{/locals}" method="get">
-                    <button>Click here to see locals</button>
+            <div sec:authorize="isAnonymous()">
+                <form th:action="@{/login}" method="get">
+                    <button>Sign In</button>
                 </form>
-                <form th:action="@{/near}" method="get">
-                    <button>Click here to search the nearest place</button>
-                </form>
-                <form th:action="@{/add}" method="get">
-                    <button>Click here to add Record</button>
-                </form>
-                <form th:action="@{/delete}" method="get">
-                    <button>Click here to delete a Record</button>
-                </form>
-
             </div>
 
-        </div>
-    </body>
+        </a>
+    </div>
+</div>
+<div class="form">
+    <h1>Menu</h1>
+
+    <div class="botoes">
+        <form th:action="@{/locals}" method="get">
+            <button>Click here to see locals</button>
+        </form>
+        <form th:action="@{/near}" method="get">
+            <button>Click here to search the nearest place</button>
+        </form>
+        <form th:action="@{/add}" method="get">
+            <button>Click here to add Record</button>
+        </form>
+        <form th:action="@{/delete}" method="get">
+            <button>Click here to delete a Record</button>
+        </form>
+
+    </div>
+
+</div>
+</body>
 </html>
